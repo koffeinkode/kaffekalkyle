@@ -791,7 +791,7 @@
             }
             
             .coffee-calculator-wrapper .input-section {
-                order: 1; /* Svartkaffe input-seksjon øverst */
+                order: 1; /* Grønnkaffe input-seksjon øverst */
                 margin-bottom: 20px;
             }
             
@@ -909,7 +909,7 @@
                 <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; align-items: center;">
                     <div>
                         <div class="coffee-name" id="coffeeNameDisplay">Ukjent kaffe</div>
-                        <div class="coffee-price">Svart kaffe + frakt + 15% MVA: <span id="greenTotalPrice">197,80 kr/kg</span></div>
+                        <div class="coffee-price">Grønn kaffe + frakt + 15% MVA: <span id="greenTotalPrice">197,80 kr/kg</span></div>
                     </div>
                     <div style="text-align: center; font-size: 16px; color: #666;">
                         Etter 12,5% vekttap under brenning:
@@ -923,13 +923,13 @@
         <div class="input-section">
             <div class="input-grid">
                 <div class="green-coffee-section">
-                    <h4 style="color: #2d5016; margin-bottom: 15px;">Svartkaffe</h4>
+                    <h4 style="color: #2d5016; margin-bottom: 15px;">Grønnkaffe</h4>
                     <div class="input-group">
-                        <label for="coffeeName">Svartkaffe:</label>
+                        <label for="coffeeName">Grønnkaffe:</label>
                         <input type="text" id="coffeeName" value="Rwanda: Intego" placeholder="F.eks. Rwanda: Intego">
                     </div>
                     <div class="input-group">
-                        <label for="greenCoffeePrice">Pris per kg svart kaffe (kr):</label>
+                        <label for="greenCoffeePrice">Pris per kg grønn kaffe (kr):</label>
                         <input type="number" id="greenCoffeePrice" value="160" step="0.01">
                     </div>
                     <div class="input-group">
@@ -1521,7 +1521,7 @@
                 <div class="summary-value">${coffeeName}</div>
             </div>
             <div class="summary-card">
-                <div class="summary-label">Svartkaffe pris</div>
+                <div class="summary-label">Grønnkaffe pris</div>
                 <div class="summary-value">${greenCoffeePrice} kr/kg</div>
             </div>
             <div class="summary-card">
@@ -1546,7 +1546,7 @@
         <h2 style="color: #1a202c; font-size: 18px; margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">📋 Detaljert informasjon</h2>
         
         <div class="info-section">
-            <h3 style="color: #2d5016; font-size: 16px; margin-bottom: 10px;">Svartkaffe og råvarer:</h3>
+            <h3 style="color: #2d5016; font-size: 16px; margin-bottom: 10px;">Grønnkaffe og råvarer:</h3>
             <ul style="margin: 0 0 20px 20px; line-height: 1.6;">
                 <li>Frakt per forsendelse: ${shippingCost} kr</li>
                 <li>Bestilt mengde: ${orderQuantity} kg</li>
@@ -1598,7 +1598,7 @@
     
     <div class="footer">
         Generert av Koffeinvinduets kaffekalkulator - ${currentDate}<br>
-        Svartkaffe pris: ${greenCoffeePrice} kr/kg
+        Grønnkaffe pris: ${greenCoffeePrice} kr/kg
     </div>
 </body>
 </html>`;
