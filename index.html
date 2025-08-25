@@ -781,7 +781,15 @@
             }
             
             .coffee-calculator-wrapper h1 {
-                font-size: 2rem !important; /* Ned fra 3rem */
+                font-size: 1.6rem !important; /* Ned fra 3rem */
+                white-space: nowrap !important;
+                top: 40% !important;
+            }
+            
+            /* Juster undertittel posisjon på mobil */
+            .coffee-calculator-wrapper .hero-image p {
+                top: calc(40% + 25px) !important;
+                font-size: 12px !important;
             }
             
             /* Flytt svartkaffe input-seksjonen før lilla knapper */
@@ -878,6 +886,7 @@
                     <div class="floating-formula formula-6">M% = (₹-Σ)/₹ × 100</div>
                 </div>
                 <h1>Kaffekalkyler 1.0</h1>
+                <p style="color: white; font-size: 14px; position: absolute; top: calc(50% + 40px); left: 50%; transform: translateX(-50%); z-index: 10; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); text-align: center; max-width: 90%; padding: 0 10px;">Rask oversikt over utsalgspris på kaffe basert på grønnkaffe-kilopris</p>
             </div>
             </div>
             
