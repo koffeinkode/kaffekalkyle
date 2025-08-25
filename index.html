@@ -507,6 +507,11 @@
             color: rgba(255,255,255,0.7) !important;
         }
         
+        /* Sticky info-stripe kun for mobil */
+        .coffee-calculator-wrapper .mobile-sticky-info {
+            display: none;
+        }
+        
         .coffee-calculator-wrapper .input-section {
             background-color: #f7fafc;
             padding: 24px;
@@ -804,17 +809,7 @@
             }
             
             .coffee-calculator-wrapper .key-info {
-                order: 2; /* Lilla knapper i midten */
-                grid-template-columns: 1fr;
-                gap: 10px;
-                margin-bottom: 20px;
-                margin-top: 20px;
-                position: static; /* Fjern sticky på mobil */
-                top: auto;
-                z-index: auto;
-                background: transparent;
-                box-shadow: none;
-                padding: 0;
+                display: none; /* Skjul lilla knapper på mobil */
             }
             
             .coffee-calculator-wrapper .coffee-display {
@@ -834,6 +829,77 @@
             .coffee-calculator-wrapper div[style*="display: flex"] {
                 order: 5;
                 margin-top: 30px;
+            }
+            
+            /* Sticky info-stripe for mobil */
+            .coffee-calculator-wrapper .mobile-sticky-info {
+                display: block !important;
+                position: sticky;
+                top: 0;
+                z-index: 200;
+                background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 25%, rgba(247, 250, 252, 0.95) 75%, #f7fafc 100%);
+                border: 1px solid #e2e8f0;
+                border-radius: 0 0 12px 12px;
+                padding: 12px 16px;
+                margin-bottom: 16px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                backdrop-filter: blur(10px);
+            }
+            
+            .coffee-calculator-wrapper .sticky-coffee-name {
+                font-weight: 700;
+                color: #1a202c;
+                font-size: 16px;
+                margin-bottom: 6px;
+                text-align: center;
+            }
+            
+            .coffee-calculator-wrapper .sticky-prices {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 13px;
+                color: #4a5568;
+            }
+            
+            .coffee-calculator-wrapper .sticky-price-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                flex: 1;
+            }
+            
+            .coffee-calculator-wrapper .sticky-label {
+                font-size: 11px;
+                color: #718096;
+                text-transform: uppercase;
+                letter-spacing: 0.3px;
+                margin-bottom: 2px;
+            }
+            
+            .coffee-calculator-wrapper .sticky-price-divider {
+                color: #cbd5e0;
+                margin: 0 8px;
+            }
+            
+            .coffee-calculator-wrapper .sticky-margin-input {
+                width: 50px !important;
+                padding: 4px 6px !important;
+                font-size: 12px !important;
+                font-weight: 600 !important;
+                text-align: center !important;
+                border: 1px solid #cbd5e0 !important;
+                border-radius: 6px !important;
+                background: rgba(255,255,255,0.95) !important;
+                color: #2d3748 !important;
+                margin-top: 3px !important;
+                outline: none !important;
+                min-height: 24px !important;
+            }
+            
+            .coffee-calculator-wrapper .sticky-margin-input:focus {
+                border-color: #667eea !important;
+                box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2) !important;
             }
             
             /* Responsivt grønt felt */
@@ -890,6 +956,29 @@
             </div>
             </div>
             
+            <!-- Sticky info-stripe kun for mobil -->
+            <div class="mobile-sticky-info">
+                <div class="sticky-coffee-name" id="stickyKaffenavnDisplay">Rwanda: Intego</div>
+                <div class="sticky-prices">
+                    <span class="sticky-price-item">
+                        <span class="sticky-label">Grønn:</span>
+                        <span id="stickyGreenPrice">160 kr/kg</span>
+                    </span>
+                    <span class="sticky-price-divider">|</span>
+                    <span class="sticky-price-item">
+                        <span class="sticky-label">Pose:</span>
+                        <span id="stickyBagPrice">245 kr</span>
+                        <input type="number" class="sticky-margin-input" id="stickyBagMargin" value="60" min="0" max="100" step="1">
+                    </span>
+                    <span class="sticky-price-divider">|</span>
+                    <span class="sticky-price-item">
+                        <span class="sticky-label">Takeaway:</span>
+                        <span id="stickyCupPrice">72 kr</span>
+                        <input type="number" class="sticky-margin-input" id="stickyCupMargin" value="60" min="0" max="100" step="1">
+                    </span>
+                </div>
+            </div>
+            
             <div class="content-wrapper">
                 <div class="key-info">
                 <div class="info-card">
@@ -921,7 +1010,7 @@
                         <div class="coffee-price">Grønn kaffe + frakt + 15% MVA: <span id="greenTotalPrice">197,80 kr/kg</span></div>
                     </div>
                     <div style="text-align: center; font-size: 16px; color: #666;">
-                        Etter 12,5% vekttap under brenning:
+                        Etter <span id="weightLossDisplay">12,5</span>% vekttap under brenning:
                     </div>
                     <div style="text-align: right;">
                         <div class="roasted-price" id="roastedPrice">226,06 kr/kg brent kaffe</div>
@@ -949,10 +1038,14 @@
                         <label for="orderQuantity">Bestilt mengde (kg):</label>
                         <input type="number" id="orderQuantity" value="1" step="0.1" placeholder="F.eks. 35 kg">
                     </div>
+                    <div class="input-group">
+                        <label for="weightLoss">Vekttap ved brenning (%):</label>
+                        <input type="number" id="weightLoss" value="12.5" step="0.1" min="0" max="50" placeholder="F.eks. 12.5">
+                    </div>
                 </div>
                 
                 <div class="brewing-section">
-                    <h4 style="color: #8B4513; margin-bottom: 15px;">Lønn, forbruksvarer og bryggeoppskrift</h4>
+                    <h4 style="color: #8B4513; margin-bottom: 15px;">Lønn og forbruksvarer</h4>
                     <div class="input-group">
                         <label for="hourlyWage">Timelønn (kr/time):</label>
                         <input type="number" id="hourlyWage" value="250" step="0.01">
@@ -1096,6 +1189,7 @@
             const greenCoffeePrice = parseFloat(document.getElementById('greenCoffeePrice').value) || 0;
             const shippingCost = parseFloat(document.getElementById('shippingCost').value) || 0;
             const orderQuantity = parseFloat(document.getElementById('orderQuantity').value) || 1;
+            const weightLoss = parseFloat(document.getElementById('weightLoss').value) || 12.5;
             const coffeeGrams = parseFloat(document.getElementById('coffeeGrams').value) || 15;
             const brewTime = parseFloat(document.getElementById('brewTime').value) || 4;
             const hourlyWage = parseFloat(document.getElementById('hourlyWage').value) || 250;
@@ -1110,13 +1204,18 @@
             // Beregn grunnleggende priser
             const shippingPerKg = orderQuantity > 0 ? shippingCost / orderQuantity : 0;
             const totalGreenPrice = (greenCoffeePrice + shippingPerKg) * 1.15; // 15% MVA
-            const roastedPrice = totalGreenPrice / 0.875; // 12.5% vekttap
+            const roastedPrice = totalGreenPrice / ((100 - weightLoss) / 100); // Dynamisk vekttap
             const totalHourlyWage = hourlyWage * (1 + employerTax / 100);
             
             // Oppdater kaffeinformasjon
             document.getElementById('coffeeNameDisplay').textContent = coffeeName;
             document.getElementById('greenTotalPrice').textContent = totalGreenPrice.toFixed(2) + ' kr/kg';
             document.getElementById('roastedPrice').textContent = roastedPrice.toFixed(2) + ' kr/kg brent kaffe';
+            document.getElementById('weightLossDisplay').textContent = weightLoss.toFixed(1);
+            
+            // Oppdater sticky mobile info
+            document.getElementById('stickyKaffenavnDisplay').textContent = coffeeName;
+            document.getElementById('stickyGreenPrice').textContent = greenCoffeePrice.toFixed(0) + ' kr/kg';
             
             // Oppdater råvarepris øverst
             document.getElementById('rawMaterialPrice').textContent = roastedPrice.toFixed(2) + ' kr/kg';
@@ -1128,6 +1227,14 @@
             // Oppdater anbefalte priser øverst
             document.getElementById('recommendedCupPrice').textContent = recommendedCupPrice.toFixed(0) + ' kr';
             document.getElementById('recommendedBagPrice').textContent = recommendedBagPrice.toFixed(0) + ' kr';
+            
+            // Oppdater sticky mobile prices
+            document.getElementById('stickyBagPrice').textContent = recommendedBagPrice.toFixed(0) + ' kr';
+            document.getElementById('stickyCupPrice').textContent = recommendedCupPrice.toFixed(0) + ' kr';
+            
+            // Oppdater sticky margin inputs
+            document.getElementById('stickyBagMargin').value = bagTargetMargin;
+            document.getElementById('stickyCupMargin').value = cupTargetMargin;
             
             // Oppdater marginvisninger øverst
             document.getElementById('cupMarginDisplay').textContent = cupTargetMargin;
@@ -1203,6 +1310,7 @@
             greenCoffeePrice: 160,
             shippingCost: 0,
             orderQuantity: 1,
+            weightLoss: 12.5,
             hourlyWage: 250,
             employerTax: 14.1,
             coffeeGrams: 15,
@@ -1219,7 +1327,7 @@
             try {
                 const data = {};
                 const inputIds = [
-                    'coffeeName', 'greenCoffeePrice', 'shippingCost', 'orderQuantity',
+                    'coffeeName', 'greenCoffeePrice', 'shippingCost', 'orderQuantity', 'weightLoss',
                     'coffeeGrams', 'brewTime', 'hourlyWage', 'employerTax',
                     'cupPrice', 'filterPrice', 'bagPrice', 'bagGrams',
                     'cupTargetMargin', 'bagTargetMargin'
@@ -1312,6 +1420,7 @@
                 const greenCoffeePrice = document.getElementById('greenCoffeePrice').value;
                 const shippingCost = document.getElementById('shippingCost').value;
                 const orderQuantity = document.getElementById('orderQuantity').value;
+                const weightLoss = document.getElementById('weightLoss').value;
                 const hourlyWage = document.getElementById('hourlyWage').value;
                 const employerTax = document.getElementById('employerTax').value;
                 const cupPrice = document.getElementById('cupPrice').value;
@@ -1387,27 +1496,65 @@
             opacity: 0.95; 
             font-size: 16px;
         }
-        .summary { 
+        .key-highlights { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-            gap: 20px; 
-            margin-bottom: 20px; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 15px; 
+            margin-bottom: 25px; 
+        }
+        .highlight-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        .highlight-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .highlight-label { 
+            font-size: 12px; 
+            opacity: 0.9;
+            text-transform: uppercase; 
+            margin-bottom: 8px; 
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .highlight-price { 
+            font-size: 22px; 
+            font-weight: bold; 
+            margin-bottom: 4px;
+        }
+        .highlight-margin {
+            font-size: 14px;
+            opacity: 0.9;
         }
         .key-summary {
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             padding: 25px;
             background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
             border-radius: 15px;
             border: 1px solid #e2e8f0;
         }
-        .summary-card { 
+        .raw-materials { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 15px; 
+            margin-bottom: 25px; 
+        }
+        .raw-card { 
             background: #f8fafc; 
-            padding: 20px; 
+            padding: 18px; 
             border-radius: 12px; 
             text-align: center; 
             border: 2px solid #e2e8f0;
         }
-        .summary-label { 
+        .raw-label { 
             font-size: 12px; 
             color: #666; 
             text-transform: uppercase; 
@@ -1415,7 +1562,7 @@
             font-weight: 600;
             letter-spacing: 0.5px;
         }
-        .summary-value { 
+        .raw-value { 
             font-size: 18px; 
             font-weight: bold; 
             color: #1a202c; 
@@ -1510,9 +1657,20 @@
             border-top: 1px solid #e2e8f0;
         }
         @media print {
-            body { margin: 0; padding: 15px; }
-            .results { break-inside: avoid; }
-            .result-card { break-inside: avoid; margin-bottom: 20px; }
+            body { margin: 0; padding: 12px; font-size: 13px; }
+            .header { padding: 20px; margin-bottom: 20px; }
+            .header h1 { font-size: 24px; }
+            .key-summary { padding: 15px; margin-bottom: 20px; }
+            .highlight-card { padding: 15px; }
+            .highlight-price { font-size: 20px; }
+            .raw-card { padding: 12px; }
+            .detailed-info { margin-bottom: 15px; }
+            .info-section { margin-bottom: 12px; }
+            .info-section h3 { font-size: 14px; margin-bottom: 6px; }
+            .info-section ul { margin-bottom: 12px; line-height: 1.4; }
+            .info-section li { font-size: 12px; }
+            .results { break-inside: avoid; margin-top: 20px; }
+            .result-card { break-inside: avoid; margin-bottom: 15px; padding: 15px; }
         }
     </style>
 </head>
@@ -1523,85 +1681,95 @@
     </div>
     
     <div class="key-summary">
-        <h2 style="color: #1a202c; font-size: 24px; margin-bottom: 25px; text-align: center;">🎯 Nøkkelinformasjon</h2>
-        <div class="summary">
-            <div class="summary-card">
-                <div class="summary-label">Kaffe</div>
-                <div class="summary-value">${coffeeName}</div>
+        <h2 style="color: #1a202c; font-size: 22px; margin-bottom: 20px; text-align: center;">🎯 Utsalgspriser og lønnsomhet</h2>
+        <div class="key-highlights">
+            <div class="highlight-card">
+                <span class="highlight-icon">🏷️</span>
+                <div class="highlight-label">Kaffepose (${bagGrams}g)</div>
+                <div class="highlight-price">${recommendedBagPrice}</div>
+                <div class="highlight-margin">Margin: ${bagActualMargin}</div>
             </div>
-            <div class="summary-card">
-                <div class="summary-label">Grønnkaffe pris</div>
-                <div class="summary-value">${greenCoffeePrice} kr/kg</div>
-            </div>
-            <div class="summary-card">
-                <div class="summary-label">Brent kaffe pris</div>
-                <div class="summary-value">${rawMaterialPrice}</div>
-            </div>
-            <div class="summary-card">
-                <div class="summary-label">Utsalgspris takeaway</div>
-                <div class="summary-value">${recommendedCupPrice}</div>
-            </div>
-            <div class="summary-card">
-                <div class="summary-label">Utsalgspris pose</div>
-                <div class="summary-value">${recommendedBagPrice}</div>
+            <div class="highlight-card">
+                <span class="highlight-icon">☕</span>
+                <div class="highlight-label">Takeaway (${coffeeGrams}g)</div>
+                <div class="highlight-price">${recommendedCupPrice}</div>
+                <div class="highlight-margin">Margin: ${cupActualMargin}</div>
             </div>
         </div>
-        <p style="text-align: center; color: #666; font-size: 14px; margin-top: 15px; font-style: italic;">
-            *Brent kaffe pris inkluderer 12,5% vekttap ved brenning
+        
+        <h3 style="color: #1a202c; font-size: 16px; margin-bottom: 15px; text-align: center;">🌱 Råvarepriser</h3>
+        <div class="raw-materials">
+            <div class="raw-card">
+                <div class="raw-label">🌱 Grønnkaffe</div>
+                <div class="raw-value">${greenCoffeePrice} kr/kg</div>
+            </div>
+            <div class="raw-card">
+                <div class="raw-label">🔥 Brent kaffe</div>
+                <div class="raw-value">${rawMaterialPrice}</div>
+            </div>
+        </div>
+        <p style="text-align: center; color: #666; font-size: 12px; margin-top: 10px; font-style: italic;">
+            *Brent kaffe pris inkluderer ${weightLoss}% vekttap ved brenning
         </p>
     </div>
     
     <div class="detailed-info">
         <h2 style="color: #1a202c; font-size: 18px; margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">📋 Detaljert informasjon</h2>
         
-        <div class="info-section">
-            <h3 style="color: #2d5016; font-size: 16px; margin-bottom: 10px;">Grønnkaffe og råvarer:</h3>
-            <ul style="margin: 0 0 20px 20px; line-height: 1.6;">
-                <li>Frakt per forsendelse: ${shippingCost} kr</li>
-                <li>Bestilt mengde: ${orderQuantity} kg</li>
-                <li>Vekttap ved brenning: 12,5%</li>
-            </ul>
-        </div>
-        
-        <div class="info-section">
-            <h3 style="color: #8B4513; font-size: 16px; margin-bottom: 10px;">Lønn og arbeidskostnader:</h3>
-            <ul style="margin: 0 0 20px 20px; line-height: 1.6;">
-                <li>Timelønn: ${hourlyWage} kr/time</li>
-                <li>Arbeidsgiveravgift: ${employerTax}%</li>
-                <li>Bryggingstid per kopp: ${brewTime} minutter</li>
-                <li>Pakketid per pose: 3 minutter</li>
-            </ul>
-        </div>
-        
-        <div class="info-section">
-            <h3 style="color: #667eea; font-size: 16px; margin-bottom: 10px;">Forbruksvarer og porsjoner:</h3>
-            <ul style="margin: 0 0 20px 20px; line-height: 1.6;">
-                <li>Kaffe per kopp: ${coffeeGrams} gram</li>
-                <li>Posevekt: ${bagGrams} gram</li>
-                <li>Pappkopp + lokk: ${cupPrice} kr</li>
-                <li>Kaffefilter: ${filterPrice} kr</li>
-                <li>Pose + etikett: ${bagPrice} kr</li>
-            </ul>
-        </div>
-        
-        <div class="info-section">
-            <h3 style="color: #764ba2; font-size: 16px; margin-bottom: 10px;">Marginer og kostnader:</h3>
-            <ul style="margin: 0 0 20px 20px; line-height: 1.6;">
-                <li>Ønsket takeaway margin: ${cupTargetMargin}%</li>
-                <li>Ønsket pose margin: ${bagTargetMargin}%</li>
-                <li>Zettle-gebyr: 1,75% av salgspris</li>
-                <li>MVA: 15% av salgspris</li>
-            </ul>
-        </div>
-        
-        <div class="info-section">
-            <h3 style="color: #e53e3e; font-size: 16px; margin-bottom: 10px;">Beregnet fortjeneste:</h3>
-            <ul style="margin: 0 0 20px 20px; line-height: 1.6;">
-                <li>Takeaway fortjeneste: ${cupProfit}</li>
-                <li>Takeaway profittmargin: ${cupActualMargin}</li>
-                <li>Pose fortjeneste: ${bagProfit}</li>
-                <li>Pose profittmargin: ${bagActualMargin}</li>
-            </ul>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
+            <div>
+                <div class="info-section">
+                    <h3 style="color: #2d5016; font-size: 16px; margin-bottom: 10px;">Grønnkaffe og råvarer:</h3>
+                    <ul style="margin: 0 0 20px 20px; line-height: 1.6;">
+                        <li>Frakt per forsendelse: ${shippingCost} kr</li>
+                        <li>Bestilt mengde: ${orderQuantity} kg</li>
+                        <li>Vekttap ved brenning: ${weightLoss}%</li>
+                    </ul>
+                </div>
+                
+                <div class="info-section">
+                    <h3 style="color: #8B4513; font-size: 16px; margin-bottom: 10px;">Lønn og arbeidskostnader:</h3>
+                    <ul style="margin: 0 0 20px 20px; line-height: 1.6;">
+                        <li>Timelønn: ${hourlyWage} kr/time</li>
+                        <li>Arbeidsgiveravgift: ${employerTax}%</li>
+                        <li>Bryggingstid per kopp: ${brewTime} minutter</li>
+                        <li>Pakketid per pose: 3 minutter</li>
+                    </ul>
+                </div>
+                
+                <div class="info-section">
+                    <h3 style="color: #667eea; font-size: 16px; margin-bottom: 10px;">Forbruksvarer og porsjoner:</h3>
+                    <ul style="margin: 0 0 20px 20px; line-height: 1.6;">
+                        <li>Kaffe per kopp: ${coffeeGrams} gram</li>
+                        <li>Posevekt: ${bagGrams} gram</li>
+                        <li>Pappkopp + lokk: ${cupPrice} kr</li>
+                        <li>Kaffefilter: ${filterPrice} kr</li>
+                        <li>Pose + etikett: ${bagPrice} kr</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div>
+                <div class="info-section">
+                    <h3 style="color: #764ba2; font-size: 16px; margin-bottom: 10px;">Marginer og kostnader:</h3>
+                    <ul style="margin: 0 0 20px 20px; line-height: 1.6;">
+                        <li>Ønsket takeaway margin: ${cupTargetMargin}%</li>
+                        <li>Ønsket pose margin: ${bagTargetMargin}%</li>
+                        <li>Zettle-gebyr: 1,75% av salgspris</li>
+                        <li>MVA: 15% av salgspris</li>
+                    </ul>
+                </div>
+                
+                <div class="info-section">
+                    <h3 style="color: #e53e3e; font-size: 16px; margin-bottom: 10px;">Beregnet fortjeneste:</h3>
+                    <ul style="margin: 0 0 20px 20px; line-height: 1.6;">
+                        <li>Takeaway fortjeneste: ${cupProfit}</li>
+                        <li>Takeaway profittmargin: ${cupActualMargin}</li>
+                        <li>Pose fortjeneste: ${bagProfit}</li>
+                        <li>Pose profittmargin: ${bagActualMargin}</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
     
@@ -1641,7 +1809,7 @@
             const dataLoaded = loadSavedData();
             
             const inputIds = [
-                'coffeeName', 'greenCoffeePrice', 'shippingCost', 'orderQuantity',
+                'coffeeName', 'greenCoffeePrice', 'shippingCost', 'orderQuantity', 'weightLoss',
                 'coffeeGrams', 'brewTime', 'hourlyWage', 'employerTax',
                 'cupPrice', 'filterPrice', 'bagPrice', 'bagGrams',
                 'cupTargetMargin', 'bagTargetMargin'
@@ -1657,6 +1825,26 @@
                     console.error('Could not find element:', id);
                 }
             });
+            
+            // Event listeners for sticky mobile margin inputs
+            const stickyBagMargin = document.getElementById('stickyBagMargin');
+            const stickyCupMargin = document.getElementById('stickyCupMargin');
+            
+            if (stickyBagMargin) {
+                stickyBagMargin.addEventListener('input', function() {
+                    // Synkroniser med original input
+                    document.getElementById('bagTargetMargin').value = this.value;
+                    calculateAll();
+                });
+            }
+            
+            if (stickyCupMargin) {
+                stickyCupMargin.addEventListener('input', function() {
+                    // Synkroniser med original input
+                    document.getElementById('cupTargetMargin').value = this.value;
+                    calculateAll();
+                });
+            }
             
             // Run initial calculation
             calculateAll();
