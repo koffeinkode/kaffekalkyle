@@ -410,9 +410,16 @@
         
         .coffee-calculator-wrapper .key-info {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 16px;
+            grid-template-columns: 1fr 1fr 1fr 120px 120px;
+            gap: 12px;
             margin-bottom: 32px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #f7fafc;
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         
         .coffee-calculator-wrapper .info-card {
@@ -443,6 +450,61 @@
             font-size: 16px;
             font-weight: 700;
             letter-spacing: -0.025em;
+        }
+        
+        .coffee-calculator-wrapper .margin-input-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            transition: transform 0.2s;
+            opacity: 0.8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .coffee-calculator-wrapper .margin-input-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .coffee-calculator-wrapper .margin-input-card label {
+            font-size: 11px;
+            color: white;
+            opacity: 0.9;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            font-weight: 600;
+            margin: 0;
+            text-align: center;
+            line-height: 1.2;
+        }
+        
+        .coffee-calculator-wrapper .margin-input-card input {
+            width: 60px !important;
+            padding: 6px 8px !important;
+            font-size: 16px !important;
+            font-weight: 700 !important;
+            text-align: center !important;
+            border: 2px solid rgba(255,255,255,0.3) !important;
+            border-radius: 6px !important;
+            background: rgba(255,255,255,0.2) !important;
+            color: white !important;
+            backdrop-filter: blur(5px) !important;
+        }
+        
+        .coffee-calculator-wrapper .margin-input-card input:focus {
+            border-color: rgba(255,255,255,0.6) !important;
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.2) !important;
+            outline: none !important;
+        }
+        
+        .coffee-calculator-wrapper .margin-input-card input::placeholder {
+            color: rgba(255,255,255,0.7) !important;
         }
         
         .coffee-calculator-wrapper .input-section {
@@ -766,12 +828,20 @@
                     <div class="info-value" id="rawMaterialPrice">226,06 kr/kg</div>
                 </div>
                 <div class="info-card">
-                    <div class="info-label">Takeaway (60%)</div>
+                    <div class="info-label">Takeaway (<span id="cupMarginDisplay">60</span>%)</div>
                     <div class="info-value" id="recommendedCupPrice">72,00 kr</div>
                 </div>
                 <div class="info-card">
-                    <div class="info-label">Pose (60%)</div>
+                    <div class="info-label">Pose (<span id="bagMarginDisplay">60</span>%)</div>
                     <div class="info-value" id="recommendedBagPrice">245,00 kr</div>
+                </div>
+                <div class="margin-input-card">
+                    <label for="cupTargetMargin">Takeaway margin</label>
+                    <input type="number" id="cupTargetMargin" value="60" step="1" min="0" max="100">
+                </div>
+                <div class="margin-input-card">
+                    <label for="bagTargetMargin">Pose-<br>margin</label>
+                    <input type="number" id="bagTargetMargin" value="60" step="1" min="0" max="100">
                 </div>
             </div>
             
@@ -796,11 +866,11 @@
                     <h4 style="color: #8B4513; margin-bottom: 15px;">Grønnkaffe</h4>
                     <div class="input-group">
                         <label for="coffeeName">Grønnkaffe:</label>
-                        <input type="text" id="coffeeName" value="" placeholder="">
+                        <input type="text" id="coffeeName" value="Rwanda: Intego" placeholder="F.eks. Rwanda: Intego">
                     </div>
                     <div class="input-group">
                         <label for="greenCoffeePrice">Pris per kg grønn kaffe (kr):</label>
-                        <input type="number" id="greenCoffeePrice" value="172" step="0.01">
+                        <input type="number" id="greenCoffeePrice" value="160" step="0.01">
                     </div>
                     <div class="input-group">
                         <label for="shippingCost">Frakt per forsendelse (kr):</label>
@@ -846,14 +916,6 @@
                         <label for="bagGrams">Posevekt (g):</label>
                         <input type="number" id="bagGrams" value="250" step="1" min="50" max="500">
                     </div>
-                    <div class="input-group">
-                        <label for="cupCustomPrice">Salgspris takeaway (kr):</label>
-                        <input type="number" id="cupCustomPrice" value="72" step="0.01">
-                    </div>
-                    <div class="input-group">
-                        <label for="bagCustomPrice">Salgspris kaffepose (kr):</label>
-                        <input type="number" id="bagCustomPrice" value="245" step="0.01">
-                    </div>
                 </div>
             </div>
         </div>
@@ -895,8 +957,12 @@
                         <span class="profit-amount" id="bagProfit">126,17 kr</span>
                     </div>
                     <div class="cost-item">
-                        <span>Margin:</span>
+                        <span>Målmargin:</span>
                         <span id="bagActualMargin">62%</span>
+                    </div>
+                    <div class="cost-item">
+                        <span>Faktisk margin:</span>
+                        <span id="bagActualMarginValue">62%</span>
                     </div>
                 </div>
             </div>
@@ -941,8 +1007,12 @@
                         <span class="profit-amount" id="cupProfit">35,93 kr</span>
                     </div>
                     <div class="cost-item">
-                        <span>Margin:</span>
+                        <span>Målmargin:</span>
                         <span id="cupActualMargin">60%</span>
+                    </div>
+                    <div class="cost-item">
+                        <span>Faktisk margin:</span>
+                        <span id="cupActualMarginValue">60%</span>
                     </div>
                 </div>
             </div>
@@ -969,8 +1039,8 @@
             const filterPrice = parseFloat(document.getElementById('filterPrice').value) || 0;
             const bagPrice = parseFloat(document.getElementById('bagPrice').value) || 0;
             const bagGrams = parseFloat(document.getElementById('bagGrams').value) || 250;
-            const cupCustomPrice = parseFloat(document.getElementById('cupCustomPrice').value) || 72;
-            const bagCustomPrice = parseFloat(document.getElementById('bagCustomPrice').value) || 245;
+            const cupTargetMargin = parseFloat(document.getElementById('cupTargetMargin').value) || 60;
+            const bagTargetMargin = parseFloat(document.getElementById('bagTargetMargin').value) || 60;
             
             // Beregn grunnleggende priser
             const shippingPerKg = orderQuantity > 0 ? shippingCost / orderQuantity : 0;
@@ -986,13 +1056,17 @@
             // Oppdater råvarepris øverst
             document.getElementById('rawMaterialPrice').textContent = roastedPrice.toFixed(2) + ' kr/kg';
             
-            // Beregn anbefalte priser for 60% margin
-            const recommendedCupPrice = calculateRecommendedPrice(roastedPrice, coffeeGrams, brewTime, totalHourlyWage, cupPrice, filterPrice, 0.6);
-            const recommendedBagPrice = calculateRecommendedPrice(roastedPrice, bagGrams, 3, totalHourlyWage, bagPrice, 0, 0.6);
+            // Beregn anbefalte priser med ønskede marginer
+            const recommendedCupPrice = calculateRecommendedPrice(roastedPrice, coffeeGrams, brewTime, totalHourlyWage, cupPrice, filterPrice, cupTargetMargin / 100);
+            const recommendedBagPrice = calculateRecommendedPrice(roastedPrice, bagGrams, 3, totalHourlyWage, bagPrice, 0, bagTargetMargin / 100);
             
             // Oppdater anbefalte priser øverst
             document.getElementById('recommendedCupPrice').textContent = recommendedCupPrice.toFixed(0) + ' kr';
             document.getElementById('recommendedBagPrice').textContent = recommendedBagPrice.toFixed(0) + ' kr';
+            
+            // Oppdater marginvisninger øverst
+            document.getElementById('cupMarginDisplay').textContent = cupTargetMargin;
+            document.getElementById('bagMarginDisplay').textContent = bagTargetMargin;
             
             // Oppdater gram-visninger
             document.getElementById('coffeeGramsDisplay').textContent = coffeeGrams;
@@ -1001,14 +1075,14 @@
             document.getElementById('bagGramsDisplay').textContent = bagGrams;
             document.getElementById('bagGramsDisplay2').textContent = bagGrams;
             
-            // TAKEAWAY-KAFFE BEREGNINGER med faktiske priser
+            // TAKEAWAY-KAFFE BEREGNINGER med anbefalte priser basert på margin
             const cupCoffeePrice = roastedPrice * (coffeeGrams / 1000);
             const cupLabor = totalHourlyWage * (brewTime / 60);
-            const cupTransaction = cupCustomPrice * 0.0175;
-            const cupVAT = cupCustomPrice * 0.15;
+            const cupTransaction = recommendedCupPrice * 0.0175;
+            const cupVAT = recommendedCupPrice * 0.15;
             const cupDirectCosts = cupCoffeePrice + cupPrice + filterPrice + cupLabor;
             const cupTotalCost = cupDirectCosts + cupTransaction + cupVAT;
-            const cupNetIncome = cupCustomPrice - cupTransaction - cupVAT;
+            const cupNetIncome = recommendedCupPrice - cupTransaction - cupVAT;
             const cupProfit = cupNetIncome - cupDirectCosts;
             const cupActualMargin = cupNetIncome > 0 ? (cupProfit / cupNetIncome) * 100 : 0;
             
@@ -1020,18 +1094,19 @@
             document.getElementById('cupTransaction').textContent = cupTransaction.toFixed(2) + ' kr';
             document.getElementById('cupVAT').textContent = cupVAT.toFixed(2) + ' kr';
             document.getElementById('cupTotalCost').textContent = cupTotalCost.toFixed(2) + ' kr';
-            document.getElementById('cupCustomPriceDisplay').textContent = cupCustomPrice.toFixed(0) + ' kr';
+            document.getElementById('cupCustomPriceDisplay').textContent = recommendedCupPrice.toFixed(0) + ' kr';
             document.getElementById('cupProfit').textContent = cupProfit.toFixed(2) + ' kr';
-            document.getElementById('cupActualMargin').textContent = Math.max(0, cupActualMargin).toFixed(0) + '%';
+            document.getElementById('cupActualMargin').textContent = cupTargetMargin + '% (målmarg.)';
+            document.getElementById('cupActualMarginValue').textContent = Math.max(0, cupActualMargin).toFixed(0) + '% (faktisk)';
             
-            // KAFFEPOSE BEREGNINGER med faktiske priser
+            // KAFFEPOSE BEREGNINGER med anbefalte priser basert på margin
             const bagCoffeePrice = roastedPrice * (bagGrams / 1000);
             const bagLabor = totalHourlyWage * (3/60);
-            const bagTransaction = bagCustomPrice * 0.0175;
-            const bagVAT = bagCustomPrice * 0.15;
+            const bagTransaction = recommendedBagPrice * 0.0175;
+            const bagVAT = recommendedBagPrice * 0.15;
             const bagDirectCosts = bagCoffeePrice + bagPrice + bagLabor;
             const bagTotalCost = bagDirectCosts + bagTransaction + bagVAT;
-            const bagNetIncome = bagCustomPrice - bagTransaction - bagVAT;
+            const bagNetIncome = recommendedBagPrice - bagTransaction - bagVAT;
             const bagProfit = bagNetIncome - bagDirectCosts;
             const bagActualMargin = bagNetIncome > 0 ? (bagProfit / bagNetIncome) * 100 : 0;
             
@@ -1042,9 +1117,10 @@
             document.getElementById('bagTransaction').textContent = bagTransaction.toFixed(2) + ' kr';
             document.getElementById('bagVAT').textContent = bagVAT.toFixed(2) + ' kr';
             document.getElementById('bagTotalCost').textContent = bagTotalCost.toFixed(2) + ' kr';
-            document.getElementById('bagCustomPriceDisplay').textContent = bagCustomPrice.toFixed(0) + ' kr';
+            document.getElementById('bagCustomPriceDisplay').textContent = recommendedBagPrice.toFixed(0) + ' kr';
             document.getElementById('bagProfit').textContent = bagProfit.toFixed(2) + ' kr';
-            document.getElementById('bagActualMargin').textContent = Math.max(0, bagActualMargin).toFixed(0) + '%';
+            document.getElementById('bagActualMargin').textContent = bagTargetMargin + '% (målmarg.)';
+            document.getElementById('bagActualMarginValue').textContent = Math.max(0, bagActualMargin).toFixed(0) + '% (faktisk)';
             
             console.log('=== CALCULATE ALL END ===');
         }
@@ -1339,7 +1415,7 @@
                 'coffeeName', 'greenCoffeePrice', 'shippingCost', 'orderQuantity',
                 'coffeeGrams', 'brewTime', 'hourlyWage', 'employerTax',
                 'cupPrice', 'filterPrice', 'bagPrice', 'bagGrams',
-                'cupCustomPrice', 'bagCustomPrice'
+                'cupTargetMargin', 'bagTargetMargin'
             ];
             
             inputIds.forEach(id => {
