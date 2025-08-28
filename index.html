@@ -13,11 +13,11 @@
             color: #2d3748;
             display: block;
             width: 100%;
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
+            max-width: none;
+            margin: 0;
+            padding: 0;
             background-color: #f7fafc;
-            border-radius: 12px;
+            border-radius: 0;
             box-sizing: border-box;
         }
         
@@ -586,25 +586,28 @@
         }
         
         .coffee-calculator-wrapper .input-section {
-            background-color: #f7fafc;
-            padding: 24px;
-            border-radius: 12px;
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
             margin-bottom: 32px;
-            border: 1px solid #e2e8f0;
+            border: none;
+            box-shadow: none;
         }
         
         .coffee-calculator-wrapper .green-coffee-section {
-            background: linear-gradient(135deg, #f0f0f0 0%, #f7fafc 100%);
-            padding: 20px;
+            background-color: white;
+            padding: 24px;
             border-radius: 12px;
-            border: 1px solid #d1d1d1;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
         
         .coffee-calculator-wrapper .brewing-section {
-            background-color: #f7fafc;
-            padding: 20px;
+            background-color: white;
+            padding: 24px;
             border-radius: 12px;
             border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
         
         .coffee-calculator-wrapper .input-grid {
@@ -973,6 +976,7 @@
             .coffee-calculator-wrapper .sticky-coffee-name {
                 font-size: 20px;
                 margin-bottom: 12px;
+                text-align: center;
             }
             
             .coffee-calculator-wrapper .sticky-prices {
@@ -1298,7 +1302,7 @@
             </div>
         </div>
         
-        <div style="display: flex; gap: 12px; justify-content: center; margin-top: 24px;">
+        <div style="display: flex; gap: 12px; justify-content: center; margin-top: 24px; margin-bottom: 80px;">
             <button class="pdf-button" onclick="saveData()">💾 Lagre data</button>
             <button class="pdf-button" onclick="resetData()">🔄 Reset til standard</button>
             <button class="pdf-button" onclick="generatePDF()">📄 Last ned PDF</button>
@@ -1603,51 +1607,68 @@
             button.textContent = 'Genererer PDF...';
             
             try {
-                // Samle alle data
-                const coffeeName = document.getElementById('coffeeName').value || 'Ukjent kaffe';
-                const currentDate = new Date().toLocaleDateString('no-NO');
-                const greenCoffeePrice = document.getElementById('greenCoffeePrice').value;
-                const shippingCost = document.getElementById('shippingCost').value;
-                const orderQuantity = document.getElementById('orderQuantity').value;
-                const weightLoss = document.getElementById('weightLoss').value;
-                const hourlyWage = document.getElementById('hourlyWage').value;
-                const employerTax = document.getElementById('employerTax').value;
-                const cupPrice = document.getElementById('cupPrice').value;
-                const filterPrice = document.getElementById('filterPrice').value;
-                const bagPrice = document.getElementById('bagPrice').value;
-                const cupTargetMargin = document.getElementById('cupTargetMargin').value;
-                const bagTargetMargin = document.getElementById('bagTargetMargin').value;
+                console.log('Starting PDF generation...');
                 
-                // Hent alle verdier
-                const rawMaterialPrice = document.getElementById('rawMaterialPrice').textContent;
-                const recommendedCupPrice = document.getElementById('recommendedCupPrice').textContent;
-                const recommendedBagPrice = document.getElementById('recommendedBagPrice').textContent;
+                // Sørg for at alle beregninger er oppdatert
+                calculateAll();
+                
+                // Hjelpefunksjon for å hente element-innhold med feilhåndtering
+                function getElementValue(id, isInput = false) {
+                    const element = document.getElementById(id);
+                    if (!element) {
+                        console.warn(`Element med ID '${id}' ikke funnet`);
+                        return isInput ? '0' : '0 kr';
+                    }
+                    return isInput ? element.value : element.textContent;
+                }
+                
+                // Samle alle data
+                const coffeeName = getElementValue('coffeeName', true) || 'Ukjent kaffe';
+                const currentDate = new Date().toLocaleDateString('no-NO');
+                const greenCoffeePrice = getElementValue('greenCoffeePrice', true);
+                const shippingCost = getElementValue('shippingCost', true);
+                const orderQuantity = getElementValue('orderQuantity', true);
+                const weightLoss = getElementValue('weightLoss', true);
+                const hourlyWage = getElementValue('hourlyWage', true);
+                const employerTax = getElementValue('employerTax', true);
+                const cupPrice = getElementValue('cupPrice', true);
+                const filterPrice = getElementValue('filterPrice', true);
+                const bagPrice = getElementValue('bagPrice', true);
+                const cupTargetMargin = getElementValue('cupTargetMargin', true);
+                const bagTargetMargin = getElementValue('bagTargetMargin', true);
+                
+                // Hent alle verdier - bruk sticky prices som faktisk eksisterer
+                const rawMaterialPrice = getElementValue('roastedPrice') || '0 kr/kg';
+                const recommendedCupPrice = getElementValue('stickyCupPrice');
+                const recommendedBagPrice = getElementValue('stickyBagPrice');
                 
                 // Takeaway data
-                const cupCoffeePrice = document.getElementById('cupCoffeePrice').textContent;
-                const cupCostDisplay = document.getElementById('cupCostDisplay').textContent;
-                const filterCostDisplay = document.getElementById('filterCostDisplay').textContent;
-                const cupLabor = document.getElementById('cupLabor').textContent;
-                const cupTransaction = document.getElementById('cupTransaction').textContent;
-                const cupVAT = document.getElementById('cupVAT').textContent;
-                const cupTotalCost = document.getElementById('cupTotalCost').textContent;
-                const cupCustomPriceDisplay = document.getElementById('cupCustomPriceDisplay').textContent;
-                const cupProfit = document.getElementById('cupProfit').textContent;
-                const cupActualMargin = document.getElementById('cupActualMarginValue').textContent;
-                const coffeeGrams = document.getElementById('coffeeGrams').value;
-                const brewTime = document.getElementById('brewTime').value;
+                const cupCoffeePrice = getElementValue('cupCoffeePrice');
+                const cupCostDisplay = getElementValue('cupCostDisplay');
+                const filterCostDisplay = getElementValue('filterCostDisplay');
+                const cupLabor = getElementValue('cupLabor');
+                const cupTransaction = getElementValue('cupTransaction');
+                const cupVAT = getElementValue('cupVAT');
+                const cupTotalCost = getElementValue('cupTotalCost');
+                const cupCustomPriceDisplay = getElementValue('cupCustomPriceDisplay');
+                const cupProfit = getElementValue('cupProfit');
+                const cupActualMargin = getElementValue('cupActualMarginValue');
+                const coffeeGrams = getElementValue('coffeeGrams', true);
+                const brewTime = getElementValue('brewTime', true);
                 
                 // Kaffepose data
-                const bagCoffeePrice = document.getElementById('bagCoffeePrice').textContent;
-                const bagCostDisplay = document.getElementById('bagCostDisplay').textContent;
-                const bagLabor = document.getElementById('bagLabor').textContent;
-                const bagTransaction = document.getElementById('bagTransaction').textContent;
-                const bagVAT = document.getElementById('bagVAT').textContent;
-                const bagTotalCost = document.getElementById('bagTotalCost').textContent;
-                const bagCustomPriceDisplay = document.getElementById('bagCustomPriceDisplay').textContent;
-                const bagProfit = document.getElementById('bagProfit').textContent;
-                const bagActualMargin = document.getElementById('bagActualMarginValue').textContent;
-                const bagGrams = document.getElementById('bagGrams').value;
+                const bagCoffeePrice = getElementValue('bagCoffeePrice');
+                const bagCostDisplay = getElementValue('bagCostDisplay');
+                const bagLabor = getElementValue('bagLabor');
+                const bagTransaction = getElementValue('bagTransaction');
+                const bagVAT = getElementValue('bagVAT');
+                const bagTotalCost = getElementValue('bagTotalCost');
+                const bagCustomPriceDisplay = getElementValue('bagCustomPriceDisplay');
+                const bagProfit = getElementValue('bagProfit');
+                const bagActualMargin = getElementValue('bagActualMarginValue');
+                const bagGrams = getElementValue('bagGrams', true);
+                
+                console.log('All data collected successfully');
                 
                 // Lag HTML for PDF-vindu
                 const pdfHTML = `
@@ -2117,9 +2138,8 @@
     </script>
     
     <!-- Kreditering -->
-    <footer style="text-align: center; padding: 20px; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); font-size: 12px;">
-        Kaffekalkyler 1.0<br>
-        © 2025 Hallvar Bugge Johnsen
+    <footer style="position: fixed; bottom: 0; left: 10px; right: 10px; z-index: 150; text-align: center; padding: 12px 16px 16px 16px; background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 25%, rgba(247, 250, 252, 0.95) 75%, #f7fafc 100%); border: 1px solid #e2e8f0; border-bottom: none; border-radius: 12px 12px 0 0; color: #718096; font-size: 11px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; backdrop-filter: blur(10px); box-shadow: 0 -2px 8px rgba(0,0,0,0.1);">
+        Kaffekalkyler 1.0 | © 2025 Hallvar Bugge Johnsen
     </footer>
 </body>
 </html>
