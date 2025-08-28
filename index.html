@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kaffekalkulator</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: #f7fafc;
+        }
+        
         .coffee-calculator-wrapper {
             all: initial;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
@@ -39,15 +51,17 @@
         }
         
         .coffee-calculator-wrapper .hero-image {
-            width: 100%;
+            width: 100vw;
             height: 350px;
             overflow: hidden;
-            border-radius: 12px 12px 0 0;
+            border-radius: 0;
             position: relative;
             background: radial-gradient(circle at 30% 30%, #667eea 0%, #764ba2 25%, #4a5568 50%, #2d3748 100%);
             display: flex;
             justify-content: center;
             align-items: center;
+            margin-left: -2px;
+            margin-right: -2px;
         }
         
         /* Psykedelisk kaffee animasjon */
@@ -575,12 +589,12 @@
             display: block;
             position: sticky;
             top: 0;
-            z-index: 200;
+            z-index: 50;
             background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 25%, rgba(247, 250, 252, 0.95) 75%, #f7fafc 100%);
             border: 1px solid #e2e8f0;
             border-radius: 0 0 12px 12px;
             padding: 12px 16px;
-            margin-bottom: 16px;
+            margin: 0 15px 16px 15px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             backdrop-filter: blur(10px);
         }
@@ -852,8 +866,23 @@
         
         @media (max-width: 768px) {
             .coffee-calculator-wrapper {
-                margin: 10px;
-                padding: 10px;
+                margin: 2px;
+                padding: 2px;
+            }
+            
+            /* Juster sticky-info på mobil for bedre midtstilling */
+            .coffee-calculator-wrapper .mobile-sticky-info {
+                margin: 0 15px 16px 15px;
+            }
+            
+            /* Midtstill alle seksjoner på mobil */
+            .coffee-calculator-wrapper .container {
+                margin-left: -3px;
+                margin-right: -3px;
+            }
+            
+            .coffee-calculator-wrapper .content-wrapper {
+                padding: 28px;
             }
             
             /* Reduser header-størrelse betydelig på mobil */
@@ -1063,7 +1092,7 @@
                     <div class="floating-formula formula-5" data-coffee-words='["Grind size", "Water temperature", "Brew ratio", "Contact time"]'>Grind size</div>
                     <div class="floating-formula formula-6" data-coffee-words='["Terroir", "Processing", "Roast development", "Cupping notes"]'>Terroir</div>
                 </div>
-                <h1>Kaffekalkyler 1.0</h1>
+                <h1>Kaffekalkyler</h1>
                 <p style="color: white; font-size: 14px; position: absolute; top: calc(45% + 40px); left: 50%; transform: translateX(-50%); z-index: 10; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); text-align: center; max-width: 90%; padding: 0 10px;">Rask oversikt over utsalgspris på kaffe basert på grønnkaffe-kilopris</p>
             </div>
             </div>
@@ -2139,7 +2168,7 @@
     
     <!-- Kreditering -->
     <footer style="position: fixed; bottom: 0; left: 10px; right: 10px; z-index: 150; text-align: center; padding: 12px 16px 16px 16px; background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 25%, rgba(247, 250, 252, 0.95) 75%, #f7fafc 100%); border: 1px solid #e2e8f0; border-bottom: none; border-radius: 12px 12px 0 0; color: #718096; font-size: 11px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; backdrop-filter: blur(10px); box-shadow: 0 -2px 8px rgba(0,0,0,0.1);">
-        Kaffekalkyler 1.0 | © 2025 Hallvar Bugge Johnsen
+        Kaffekalkyler 1.0 | © 2025 <a href="https://www.hallvar.no" target="_blank" style="color: #667eea; text-decoration: none;">Hallvar Bugge Johnsen</a>
     </footer>
 </body>
 </html>
