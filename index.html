@@ -381,7 +381,7 @@
             font-weight: 800;
             letter-spacing: -0.025em;
             position: absolute;
-            top: 50%;
+            top: 45%;
             left: 50%;
             transform: translate(-50%, -50%);
             text-shadow: 3px 3px 6px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.6);
@@ -507,9 +507,82 @@
             color: rgba(255,255,255,0.7) !important;
         }
         
-        /* Sticky info-stripe kun for mobil */
-        .coffee-calculator-wrapper .mobile-sticky-info {
+        /* Desktop info-stripe - skjult på alle skjermstørrelser */
+        .coffee-calculator-wrapper .desktop-info-stripe {
             display: none;
+        }
+        
+        .coffee-calculator-wrapper .desktop-coffee-name {
+            font-weight: 700;
+            color: #1a202c;
+            font-size: 18px;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        
+        .coffee-calculator-wrapper .desktop-prices {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #4a5568;
+        }
+        
+        .coffee-calculator-wrapper .desktop-price-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+        
+        .coffee-calculator-wrapper .desktop-label {
+            font-size: 12px;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+        
+        .coffee-calculator-wrapper .desktop-price-divider {
+            color: #cbd5e0;
+            margin: 0 12px;
+            font-size: 16px;
+        }
+        
+        .coffee-calculator-wrapper .desktop-margin-input {
+            width: 50px !important;
+            padding: 4px 6px !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
+            text-align: center !important;
+            border: 1px solid #cbd5e0 !important;
+            border-radius: 6px !important;
+            background: rgba(255,255,255,0.95) !important;
+            color: #2d3748 !important;
+            margin-top: 3px !important;
+            outline: none !important;
+            min-height: 24px !important;
+        }
+        
+        .coffee-calculator-wrapper .desktop-margin-input:focus {
+            border-color: #667eea !important;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2) !important;
+        }
+        
+        /* Sticky info-stripe for alle skjermstørrelser */
+        .coffee-calculator-wrapper .mobile-sticky-info {
+            display: block;
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 25%, rgba(247, 250, 252, 0.95) 75%, #f7fafc 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 0 0 12px 12px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
         }
         
         .coffee-calculator-wrapper .input-section {
@@ -812,12 +885,8 @@
                 display: none; /* Skjul lilla knapper på mobil */
             }
             
-            .coffee-calculator-wrapper .coffee-display {
-                order: 3; /* Grønt display-felt */
-            }
-            
             .coffee-calculator-wrapper .results {
-                order: 4; /* Resultat-kortene sist */
+                order: 3; /* Resultat-kortene sist */
                 grid-template-columns: 1fr;
             }
             
@@ -825,26 +894,18 @@
                 grid-template-columns: 1fr;
             }
             
+            /* Skjul integrert coffee-display på mobil (vi har sticky-stripe) */
+            .coffee-calculator-wrapper .integrated-coffee-display {
+                display: none;
+            }
+            
+            
             /* Knappene helt til slutt */
             .coffee-calculator-wrapper div[style*="display: flex"] {
-                order: 5;
+                order: 4;
                 margin-top: 30px;
             }
             
-            /* Sticky info-stripe for mobil */
-            .coffee-calculator-wrapper .mobile-sticky-info {
-                display: block !important;
-                position: sticky;
-                top: 0;
-                z-index: 200;
-                background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 25%, rgba(247, 250, 252, 0.95) 75%, #f7fafc 100%);
-                border: 1px solid #e2e8f0;
-                border-radius: 0 0 12px 12px;
-                padding: 12px 16px;
-                margin-bottom: 16px;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-                backdrop-filter: blur(10px);
-            }
             
             .coffee-calculator-wrapper .sticky-coffee-name {
                 font-weight: 700;
@@ -901,6 +962,53 @@
                 border-color: #667eea !important;
                 box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2) !important;
             }
+        }
+        
+        /* Desktop sticky menu optimalisering */
+        @media (min-width: 769px) {
+            .coffee-calculator-wrapper .mobile-sticky-info {
+                padding: 16px 24px;
+            }
+            
+            .coffee-calculator-wrapper .sticky-coffee-name {
+                font-size: 20px;
+                margin-bottom: 12px;
+            }
+            
+            .coffee-calculator-wrapper .sticky-prices {
+                display: grid;
+                grid-template-columns: 1fr auto 1fr auto 1fr;
+                gap: 24px;
+                align-items: center;
+                max-width: 800px;
+                margin: 0 auto;
+                font-size: 14px;
+            }
+            
+            .coffee-calculator-wrapper .sticky-price-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                min-width: 100px;
+            }
+            
+            .coffee-calculator-wrapper .sticky-price-divider {
+                justify-self: center;
+                font-weight: 300;
+                color: #cbd5e0;
+                margin: 0;
+            }
+            
+            .coffee-calculator-wrapper .sticky-label {
+                font-size: 12px;
+                margin-bottom: 4px;
+                color: #718096;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+        }
+        
             
             /* Responsivt grønt felt */
             .coffee-calculator-wrapper .coffee-display > div {
@@ -944,15 +1052,15 @@
                     <div class="pulsing-circle circle-1"></div>
                     <div class="pulsing-circle circle-2"></div>
                     <div class="pulsing-circle circle-3"></div>
-                    <div class="floating-formula formula-1">₹ = P × (1 + M%)</div>
-                    <div class="floating-formula formula-2">C = R × 0.875</div>
-                    <div class="floating-formula formula-3">L = T × W × 1.141</div>
-                    <div class="floating-formula formula-4">V = P × 0.15</div>
-                    <div class="floating-formula formula-5">Σ = C + L + V</div>
-                    <div class="floating-formula formula-6">M% = (₹-Σ)/₹ × 100</div>
+                    <div class="floating-formula formula-1" data-coffee-words='["Fascinating", "Extraordinary", "Quite interesting", "Rather lovely"]'>Fascinating</div>
+                    <div class="floating-formula formula-2" data-coffee-words='["Delightful", "Complexity", "Clarity", "Balance"]'>Delightful</div>
+                    <div class="floating-formula formula-3" data-coffee-words='["Brightness", "Acidity", "Sweetness", "Body"]'>Brightness</div>
+                    <div class="floating-formula formula-4" data-coffee-words='["Extraction", "Uniformity", "Technique", "Precision"]'>Extraction</div>
+                    <div class="floating-formula formula-5" data-coffee-words='["Grind size", "Water temperature", "Brew ratio", "Contact time"]'>Grind size</div>
+                    <div class="floating-formula formula-6" data-coffee-words='["Terroir", "Processing", "Roast development", "Cupping notes"]'>Terroir</div>
                 </div>
                 <h1>Kaffekalkyler 1.0</h1>
-                <p style="color: white; font-size: 14px; position: absolute; top: calc(50% + 40px); left: 50%; transform: translateX(-50%); z-index: 10; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); text-align: center; max-width: 90%; padding: 0 10px;">Rask oversikt over utsalgspris på kaffe basert på grønnkaffe-kilopris</p>
+                <p style="color: white; font-size: 14px; position: absolute; top: calc(45% + 40px); left: 50%; transform: translateX(-50%); z-index: 10; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); text-align: center; max-width: 90%; padding: 0 10px;">Rask oversikt over utsalgspris på kaffe basert på grønnkaffe-kilopris</p>
             </div>
             </div>
             
@@ -968,55 +1076,56 @@
                     <span class="sticky-price-item">
                         <span class="sticky-label">Pose:</span>
                         <span id="stickyBagPrice">245 kr</span>
-                        <input type="number" class="sticky-margin-input" id="stickyBagMargin" value="60" min="0" max="100" step="1">
+                        <div style="display: flex; align-items: center; gap: 2px; justify-content: center; margin-top: 2px;">
+                            <input type="number" class="sticky-margin-input" id="stickyBagMargin" value="60" min="0" max="100" step="1">
+                            <span style="font-size: 11px; color: #718096;">%</span>
+                        </div>
                     </span>
                     <span class="sticky-price-divider">|</span>
                     <span class="sticky-price-item">
                         <span class="sticky-label">Takeaway:</span>
                         <span id="stickyCupPrice">72 kr</span>
-                        <input type="number" class="sticky-margin-input" id="stickyCupMargin" value="60" min="0" max="100" step="1">
+                        <div style="display: flex; align-items: center; gap: 2px; justify-content: center; margin-top: 2px;">
+                            <input type="number" class="sticky-margin-input" id="stickyCupMargin" value="60" min="0" max="100" step="1">
+                            <span style="font-size: 11px; color: #718096;">%</span>
+                        </div>
                     </span>
                 </div>
             </div>
             
             <div class="content-wrapper">
-                <div class="key-info">
-                <div class="info-card">
-                    <div class="info-label">Råvarepris brent</div>
-                    <div class="info-value" id="rawMaterialPrice">226,06 kr/kg</div>
-                </div>
-                <div class="info-card">
-                    <div class="info-label">Takeaway (<span id="cupMarginDisplay">60</span>%)</div>
-                    <div class="info-value" id="recommendedCupPrice">72,00 kr</div>
-                </div>
-                <div class="info-card">
-                    <div class="info-label">Pose (<span id="bagMarginDisplay">60</span>%)</div>
-                    <div class="info-value" id="recommendedBagPrice">245,00 kr</div>
-                </div>
-                <div class="margin-input-card">
-                    <label for="bagTargetMargin">Pose-<br>margin</label>
-                    <input type="number" id="bagTargetMargin" value="60" step="1" min="0" max="100">
-                </div>
-                <div class="margin-input-card">
-                    <label for="cupTargetMargin">Takeaway margin</label>
-                    <input type="number" id="cupTargetMargin" value="60" step="1" min="0" max="100">
-                </div>
-            </div>
-            
-            <div class="coffee-display">
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; align-items: center;">
-                    <div>
-                        <div class="coffee-name" id="coffeeNameDisplay">Ukjent kaffe</div>
-                        <div class="coffee-price">Grønn kaffe + frakt + 15% MVA: <span id="greenTotalPrice">197,80 kr/kg</span></div>
-                    </div>
-                    <div style="text-align: center; font-size: 16px; color: #666;">
-                        Etter <span id="weightLossDisplay">12,5</span>% vekttap under brenning:
-                    </div>
-                    <div style="text-align: right;">
-                        <div class="roasted-price" id="roastedPrice">226,06 kr/kg brent kaffe</div>
+                <div class="desktop-info-stripe">
+                    <div class="desktop-coffee-name" id="desktopKaffenavnDisplay">Rwanda: Intego</div>
+                    <div class="desktop-prices">
+                        <span class="desktop-price-item">
+                            <span class="desktop-label">Grønn:</span>
+                            <span id="desktopGreenPrice">160 kr/kg</span>
+                        </span>
+                        <span class="desktop-price-divider">|</span>
+                        <span class="desktop-price-item">
+                            <span class="desktop-label">Råvare brent:</span>
+                            <span id="desktopRawMaterialPrice">226,06 kr/kg</span>
+                        </span>
+                        <span class="desktop-price-divider">|</span>
+                        <span class="desktop-price-item">
+                            <span class="desktop-label">Pose:</span>
+                            <span id="desktopBagPrice">245 kr</span>
+                            <div style="display: flex; align-items: center; gap: 2px; justify-content: center; margin-top: 2px;">
+                                <input type="number" class="desktop-margin-input" id="desktopBagMargin" value="60" min="0" max="100" step="1">
+                                <span style="font-size: 11px; color: #4a5568;">%</span>
+                            </div>
+                        </span>
+                        <span class="desktop-price-divider">|</span>
+                        <span class="desktop-price-item">
+                            <span class="desktop-label">Takeaway:</span>
+                            <span id="desktopCupPrice">72 kr</span>
+                            <div style="display: flex; align-items: center; gap: 2px; justify-content: center; margin-top: 2px;">
+                                <input type="number" class="desktop-margin-input" id="desktopCupMargin" value="60" min="0" max="100" step="1">
+                                <span style="font-size: 11px; color: #4a5568;">%</span>
+                            </div>
+                        </span>
                     </div>
                 </div>
-            </div>
         
         <div class="input-section">
             <div class="input-grid">
@@ -1041,6 +1150,19 @@
                     <div class="input-group">
                         <label for="weightLoss">Vekttap ved brenning (%):</label>
                         <input type="number" id="weightLoss" value="12.5" step="0.1" min="0" max="50" placeholder="F.eks. 12.5">
+                    </div>
+                    
+                    <!-- Integrert coffee-display i grønnkaffe-seksjon -->
+                    <div class="integrated-coffee-display" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #d1d1d1;">
+                        <div class="input-group">
+                            <label>Kort oppsummert:</label>
+                            <div style="background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                <div style="font-weight: 600; color: #1a202c; font-size: 14px; margin-bottom: 4px;" id="coffeeNameDisplay">Ukjent kaffe</div>
+                                <div style="font-size: 13px; color: #4a5568; margin-bottom: 2px;">Grønn kaffe + frakt + 15% MVA: <span id="greenTotalPrice">197,80 kr/kg</span></div>
+                                <div style="font-size: 13px; color: #4a5568; margin-bottom: 2px;">Etter <span id="weightLossDisplay">12,5</span>% vekttap under brenning:</div>
+                                <div style="font-weight: 600; color: #667eea; font-size: 14px;" id="roastedPrice">226,06 kr/kg brent kaffe</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
@@ -1078,6 +1200,10 @@
                         <label for="bagGrams">Posevekt (g):</label>
                         <input type="number" id="bagGrams" value="250" step="1" min="50" max="500">
                     </div>
+                    
+                    <!-- Skjulte margin inputs for kalkylen -->
+                    <input type="hidden" id="bagTargetMargin" value="60">
+                    <input type="hidden" id="cupTargetMargin" value="60">
                 </div>
             </div>
         </div>
@@ -1201,6 +1327,8 @@
             const cupTargetMargin = parseFloat(document.getElementById('cupTargetMargin').value) || 60;
             const bagTargetMargin = parseFloat(document.getElementById('bagTargetMargin').value) || 60;
             
+            console.log('calculateAll: cupTargetMargin =', cupTargetMargin, 'bagTargetMargin =', bagTargetMargin);
+            
             // Beregn grunnleggende priser
             const shippingPerKg = orderQuantity > 0 ? shippingCost / orderQuantity : 0;
             const totalGreenPrice = (greenCoffeePrice + shippingPerKg) * 1.15; // 15% MVA
@@ -1217,16 +1345,32 @@
             document.getElementById('stickyKaffenavnDisplay').textContent = coffeeName;
             document.getElementById('stickyGreenPrice').textContent = greenCoffeePrice.toFixed(0) + ' kr/kg';
             
-            // Oppdater råvarepris øverst
-            document.getElementById('rawMaterialPrice').textContent = roastedPrice.toFixed(2) + ' kr/kg';
+            // Oppdater råvarepris øverst (hvis elementet eksisterer)
+            const rawMaterialPriceElement = document.getElementById('rawMaterialPrice');
+            if (rawMaterialPriceElement) {
+                rawMaterialPriceElement.textContent = roastedPrice.toFixed(2) + ' kr/kg';
+            }
             
             // Beregn anbefalte priser med ønskede marginer
             const recommendedCupPrice = calculateRecommendedPrice(roastedPrice, coffeeGrams, brewTime, totalHourlyWage, cupPrice, filterPrice, cupTargetMargin / 100);
             const recommendedBagPrice = calculateRecommendedPrice(roastedPrice, bagGrams, 3, totalHourlyWage, bagPrice, 0, bagTargetMargin / 100);
             
-            // Oppdater anbefalte priser øverst
-            document.getElementById('recommendedCupPrice').textContent = recommendedCupPrice.toFixed(0) + ' kr';
-            document.getElementById('recommendedBagPrice').textContent = recommendedBagPrice.toFixed(0) + ' kr';
+            console.log('Recommended prices:', {
+                cupPrice: recommendedCupPrice,
+                bagPrice: recommendedBagPrice,
+                cupMargin: cupTargetMargin,
+                bagMargin: bagTargetMargin
+            });
+            
+            // Oppdater anbefalte priser øverst (hvis elementene eksisterer)
+            const recommendedCupPriceElement = document.getElementById('recommendedCupPrice');
+            const recommendedBagPriceElement = document.getElementById('recommendedBagPrice');
+            if (recommendedCupPriceElement) {
+                recommendedCupPriceElement.textContent = recommendedCupPrice.toFixed(0) + ' kr';
+            }
+            if (recommendedBagPriceElement) {
+                recommendedBagPriceElement.textContent = recommendedBagPrice.toFixed(0) + ' kr';
+            }
             
             // Oppdater sticky mobile prices
             document.getElementById('stickyBagPrice').textContent = recommendedBagPrice.toFixed(0) + ' kr';
@@ -1236,9 +1380,38 @@
             document.getElementById('stickyBagMargin').value = bagTargetMargin;
             document.getElementById('stickyCupMargin').value = cupTargetMargin;
             
-            // Oppdater marginvisninger øverst
-            document.getElementById('cupMarginDisplay').textContent = cupTargetMargin;
-            document.getElementById('bagMarginDisplay').textContent = bagTargetMargin;
+            // Oppdater desktop info stripe (hvis elementene eksisterer)
+            const desktopKaffenavnElement = document.getElementById('desktopKaffenavnDisplay');
+            const desktopGreenPriceElement = document.getElementById('desktopGreenPrice');
+            const desktopRawMaterialPriceElement = document.getElementById('desktopRawMaterialPrice');
+            const desktopBagPriceElement = document.getElementById('desktopBagPrice');
+            const desktopCupPriceElement = document.getElementById('desktopCupPrice');
+            
+            if (desktopKaffenavnElement) desktopKaffenavnElement.textContent = coffeeName;
+            if (desktopGreenPriceElement) desktopGreenPriceElement.textContent = greenCoffeePrice.toFixed(0) + ' kr/kg';
+            if (desktopRawMaterialPriceElement) desktopRawMaterialPriceElement.textContent = roastedPrice.toFixed(2) + ' kr/kg';
+            if (desktopBagPriceElement) desktopBagPriceElement.textContent = recommendedBagPrice.toFixed(0) + ' kr';
+            if (desktopCupPriceElement) desktopCupPriceElement.textContent = recommendedCupPrice.toFixed(0) + ' kr';
+            
+            // Oppdater desktop margin inputs (hvis elementene eksisterer)
+            const desktopBagMarginElement = document.getElementById('desktopBagMargin');
+            const desktopCupMarginElement = document.getElementById('desktopCupMargin');
+            if (desktopBagMarginElement) {
+                desktopBagMarginElement.value = bagTargetMargin;
+            }
+            if (desktopCupMarginElement) {
+                desktopCupMarginElement.value = cupTargetMargin;
+            }
+            
+            // Oppdater marginvisninger øverst (hvis elementene eksisterer)
+            const cupMarginDisplayElement = document.getElementById('cupMarginDisplay');
+            const bagMarginDisplayElement = document.getElementById('bagMarginDisplay');
+            if (cupMarginDisplayElement) {
+                cupMarginDisplayElement.textContent = cupTargetMargin;
+            }
+            if (bagMarginDisplayElement) {
+                bagMarginDisplayElement.textContent = bagTargetMargin;
+            }
             
             // Oppdater gram-visninger
             document.getElementById('coffeeGramsDisplay').textContent = coffeeGrams;
@@ -1396,6 +1569,22 @@
                             element.value = data[id];
                         }
                     });
+                    
+                    // Synkroniser margin inputs
+                    const bagTargetMargin = document.getElementById('bagTargetMargin').value || 60;
+                    const cupTargetMargin = document.getElementById('cupTargetMargin').value || 60;
+                    
+                    // Oppdater sticky margin inputs
+                    const stickyBagMargin = document.getElementById('stickyBagMargin');
+                    const stickyCupMargin = document.getElementById('stickyCupMargin');
+                    if (stickyBagMargin) stickyBagMargin.value = bagTargetMargin;
+                    if (stickyCupMargin) stickyCupMargin.value = cupTargetMargin;
+                    
+                    // Oppdater desktop margin inputs
+                    const desktopBagMargin = document.getElementById('desktopBagMargin');
+                    const desktopCupMargin = document.getElementById('desktopCupMargin');
+                    if (desktopBagMargin) desktopBagMargin.value = bagTargetMargin;
+                    if (desktopCupMargin) desktopCupMargin.value = cupTargetMargin;
                     
                     console.log('Lagrede data lastet inn');
                     return true;
@@ -1801,6 +1990,19 @@
             }
         }
 
+
+        // Roter poetiske kaffe-ord
+        function rotateCoffeeWords() {
+            const formulas = document.querySelectorAll('.floating-formula');
+            formulas.forEach(formula => {
+                const words = JSON.parse(formula.getAttribute('data-coffee-words'));
+                if (words && words.length > 0) {
+                    const randomWord = words[Math.floor(Math.random() * words.length)];
+                    formula.textContent = randomWord;
+                }
+            });
+        }
+
         // Set up event listeners when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM loaded - setting up calculator');
@@ -1832,18 +2034,72 @@
             
             if (stickyBagMargin) {
                 stickyBagMargin.addEventListener('input', function() {
+                    console.log('Sticky bag margin changed to:', this.value);
                     // Synkroniser med original input
+                    const hiddenInput = document.getElementById('bagTargetMargin');
+                    hiddenInput.value = this.value;
+                    console.log('Hidden bagTargetMargin updated to:', hiddenInput.value);
+                    calculateAll();
+                });
+                stickyBagMargin.addEventListener('change', function() {
+                    console.log('Sticky bag margin change event:', this.value);
                     document.getElementById('bagTargetMargin').value = this.value;
                     calculateAll();
                 });
+            } else {
+                console.error('stickyBagMargin element not found');
             }
             
             if (stickyCupMargin) {
                 stickyCupMargin.addEventListener('input', function() {
+                    console.log('Sticky cup margin changed to:', this.value);
+                    // Synkroniser med original input
+                    const hiddenInput = document.getElementById('cupTargetMargin');
+                    hiddenInput.value = this.value;
+                    console.log('Hidden cupTargetMargin updated to:', hiddenInput.value);
+                    calculateAll();
+                });
+                stickyCupMargin.addEventListener('change', function() {
+                    console.log('Sticky cup margin change event:', this.value);
+                    document.getElementById('cupTargetMargin').value = this.value;
+                    calculateAll();
+                });
+            } else {
+                console.error('stickyCupMargin element not found');
+            }
+            
+            // Event listeners for desktop margin inputs
+            const desktopBagMargin = document.getElementById('desktopBagMargin');
+            const desktopCupMargin = document.getElementById('desktopCupMargin');
+            
+            if (desktopBagMargin) {
+                desktopBagMargin.addEventListener('input', function() {
+                    console.log('Desktop bag margin changed to:', this.value);
+                    // Synkroniser med original input
+                    document.getElementById('bagTargetMargin').value = this.value;
+                    calculateAll();
+                });
+                desktopBagMargin.addEventListener('change', function() {
+                    document.getElementById('bagTargetMargin').value = this.value;
+                    calculateAll();
+                });
+            } else {
+                console.error('desktopBagMargin element not found');
+            }
+            
+            if (desktopCupMargin) {
+                desktopCupMargin.addEventListener('input', function() {
+                    console.log('Desktop cup margin changed to:', this.value);
                     // Synkroniser med original input
                     document.getElementById('cupTargetMargin').value = this.value;
                     calculateAll();
                 });
+                desktopCupMargin.addEventListener('change', function() {
+                    document.getElementById('cupTargetMargin').value = this.value;
+                    calculateAll();
+                });
+            } else {
+                console.error('desktopCupMargin element not found');
             }
             
             // Run initial calculation
@@ -1853,7 +2109,17 @@
             if (dataLoaded) {
                 console.log('✅ Lagrede verdier ble lastet inn automatisk');
             }
+            
+            // Start rotasjon av poetiske kaffe-ord
+            rotateCoffeeWords(); // Initial rotation
+            setInterval(rotateCoffeeWords, 8000); // Roter hvert 8. sekund
         });
     </script>
+    
+    <!-- Kreditering -->
+    <footer style="text-align: center; padding: 20px; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); font-size: 12px;">
+        Kaffekalkyler 1.0<br>
+        © 2025 Hallvar Bugge Johnsen
+    </footer>
 </body>
 </html>
