@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kaffekalkulator</title>
     <style>
+        @font-face {
+            font-family: 'SportingGrotesque';
+            src: url('SportingGrotesque-Regular.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -797,6 +804,107 @@
             transform: none;
             box-shadow: none;
         }
+
+        /* Etikett-stiler for 50x70mm ved 203 DPI (400x551px) */
+        .coffee-label {
+            width: 400px;
+            height: 551px;
+            background: white;
+            border: none;
+            border-radius: 0;
+            padding: 20px;
+            font-family: 'SportingGrotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 18px;
+            line-height: 1.2;
+            color: #2d3748;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: none;
+        }
+
+        .label-header {
+            text-align: center;
+            border-bottom: 2px solid #4a5568;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+        .label-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 4px;
+        }
+
+        .label-subtitle {
+            font-size: 16px;
+            color: #718096;
+        }
+
+        .label-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .label-row:last-child {
+            border-bottom: none;
+            border-top: 2px solid #4a5568;
+            padding-top: 12px;
+            margin-top: 8px;
+            font-weight: bold;
+            font-size: 26px;
+        }
+
+        .label-desc {
+            font-size: 16px;
+            color: #4a5568;
+        }
+
+        .label-price {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .label-total {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1a202c;
+        }
+
+        /* Print-stiler for etikett */
+        @media print {
+            .coffee-label {
+                width: 400px !important;
+                height: 551px !important;
+                margin: 0 !important;
+                border: none !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                page-break-inside: avoid;
+            }
+            
+            body {
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            
+            #labelPreview h3,
+            #labelPreview .pdf-button {
+                display: none !important;
+            }
+        }
         
         /* Print styles for PDF */
         @media print {
@@ -1226,7 +1334,7 @@
                         <input type="number" id="filterPrice" value="0.80" step="0.01">
                     </div>
                     <div class="input-group">
-                        <label for="bagPrice">Pose + etikett (kr):</label>
+                        <label for="bagPrice">Emballasje (kr):</label>
                         <input type="number" id="bagPrice" value="7.00" step="0.01">
                     </div>
                     <div class="input-group">
@@ -1249,11 +1357,11 @@
                     <span id="bagCoffeePrice">56,52 kr</span>
                 </div>
                 <div class="cost-item">
-                    <span>Pose + etikett:</span>
+                    <span>Emballasje:</span>
                     <span id="bagCostDisplay">7,00 kr</span>
                 </div>
                 <div class="cost-item">
-                    <span>Lønn (pakking, 3 min):</span>
+                    <span>Lønnkostnad, pakking:</span>
                     <span id="bagLabor">14,27 kr</span>
                 </div>
                 <div class="cost-item">
@@ -1335,10 +1443,28 @@
             <button class="pdf-button" onclick="saveData()">💾 Lagre data</button>
             <button class="pdf-button" onclick="resetData()">🔄 Reset til standard</button>
             <button class="pdf-button" onclick="generatePDF()">📄 Last ned PDF</button>
+            <button class="pdf-button" onclick="generateLabel()">🏷️ Lag etikett</button>
+        </div>
+
+        <!-- Etikett forhåndsvisning -->
+        <div id="labelPreview" style="display: none; margin: 24px auto; padding: 20px; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 500px;">
+            <h3 style="text-align: center; margin-bottom: 16px; color: #2d3748;">Etikett-forhåndsvisning</h3>
+            <div style="display: flex; justify-content: center; margin-bottom: 16px;">
+                <div id="labelContent" class="coffee-label">
+                    <!-- Etikett-innhold genereres her -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Utskrift-knapp under preview -->
+        <div id="printButtonContainer" style="display: none; text-align: center; margin: 16px auto 24px; max-width: 500px;">
+            <button class="pdf-button" onclick="printLabel()">🖨️ Skriv ut etikett</button>
+            <button class="pdf-button" onclick="exportLabelPNG()">🖼️ Last ned som PNG</button>
         </div>
             </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
         function calculateAll() {
             console.log('=== CALCULATE ALL START ===');
@@ -1983,7 +2109,7 @@
                         <li>Posevekt: ${bagGrams} gram</li>
                         <li>Pappkopp + lokk: ${cupPrice} kr</li>
                         <li>Kaffefilter: ${filterPrice} kr</li>
-                        <li>Pose + etikett: ${bagPrice} kr</li>
+                        <li>Emballasje: ${bagPrice} kr</li>
                     </ul>
                 </div>
             </div>
@@ -2164,6 +2290,251 @@
             rotateCoffeeWords(); // Initial rotation
             setInterval(rotateCoffeeWords, 8000); // Roter hvert 8. sekund
         });
+
+        // Etikett-funksjoner
+        function calculateLabelData() {
+            // Hent direkte fra de beregnede verdiene i DOM-en (samme som kalkulatoren viser)
+            const coffeeName = document.getElementById('coffeeName').value || 'Ukjent kaffe';
+            const greenCoffeePrice = parseFloat(document.getElementById('greenCoffeePrice').value) || 0;
+            const shippingCost = parseFloat(document.getElementById('shippingCost').value) || 0;
+            const orderQuantity = parseFloat(document.getElementById('orderQuantity').value) || 1;
+            
+            // Beregn grønnkaffe + frakt (uten MVA)
+            const shippingPerKg = (orderQuantity > 0 && shippingCost > 0) ? shippingCost / orderQuantity : 0;
+            const greenPriceWithShipping = greenCoffeePrice + shippingPerKg;
+            
+            // Hent beregnede verdier for kaffepose fra DOM
+            const bagCoffeePrice = parseFloat(document.getElementById('bagCoffeePrice').textContent.replace(' kr', '')) || 0;
+            const bagCostDisplay = parseFloat(document.getElementById('bagCostDisplay').textContent.replace(' kr', '')) || 0;
+            const bagLabor = parseFloat(document.getElementById('bagLabor').textContent.replace(' kr', '')) || 0;
+            const bagTransaction = parseFloat(document.getElementById('bagTransaction').textContent.replace(' kr', '')) || 0;
+            const bagVAT = parseFloat(document.getElementById('bagVAT').textContent.replace(' kr', '')) || 0;
+            const bagTotalCost = parseFloat(document.getElementById('bagTotalCost').textContent.replace(' kr', '')) || 0;
+            const bagCustomPriceDisplay = parseFloat(document.getElementById('bagCustomPriceDisplay').textContent.replace(' kr', '')) || 0;
+            const bagProfit = parseFloat(document.getElementById('bagProfit').textContent.replace(' kr', '')) || 0;
+            const bagGrams = parseFloat(document.getElementById('bagGrams').value) || 250;
+
+            // Konverter til 200g hvis nødvendig
+            const ratio200g = 200 / bagGrams;
+            
+            return {
+                coffeeName,
+                greenCoffeePrice: greenPriceWithShipping.toFixed(0) + ' kr/kg',
+                mvaPct: '15%',
+                roastedPrice200g: (bagCoffeePrice * ratio200g).toFixed(2) + ' kr',
+                packagingCost: (bagCostDisplay * ratio200g).toFixed(2) + ' kr',
+                laborCost: (bagLabor * ratio200g).toFixed(2) + ' kr',
+                zettleFee: (bagTransaction * ratio200g).toFixed(2) + ' kr',
+                vat: (bagVAT * ratio200g).toFixed(2) + ' kr',
+                totalPrice: (bagTotalCost * ratio200g).toFixed(2) + ' kr',
+                salePrice: (bagCustomPriceDisplay * ratio200g).toFixed(2) + ' kr',
+                profit: (bagProfit * ratio200g).toFixed(2) + ' kr'
+            };
+        }
+
+        function generateLabel() {
+            const labelData = calculateLabelData();
+            const labelContent = document.getElementById('labelContent');
+            
+            labelContent.innerHTML = `
+                <div class="label-header">
+                    <div class="label-title">${labelData.coffeeName}</div>
+                    <div class="label-subtitle">200g</div>
+                </div>
+                
+                <div class="label-info">
+                    <div class="label-row">
+                        <span class="label-desc">Grønnkaffe kilopris:</span>
+                        <span class="label-price">${labelData.greenCoffeePrice}</span>
+                    </div>
+                    
+                    <div class="label-row">
+                        <span class="label-desc">Kostpris ferdigbrent kaffe:</span>
+                        <span class="label-price">${labelData.roastedPrice200g}</span>
+                    </div>
+                    
+                    <div class="label-row">
+                        <span class="label-desc">Emballasje:</span>
+                        <span class="label-price">${labelData.packagingCost}</span>
+                    </div>
+                    
+                    <div class="label-row">
+                        <span class="label-desc">Lønnkostnad, pakking:</span>
+                        <span class="label-price">${labelData.laborCost}</span>
+                    </div>
+                    
+                    <div class="label-row">
+                        <span class="label-desc">Zettle-gebyr (1,75%):</span>
+                        <span class="label-price">${labelData.zettleFee}</span>
+                    </div>
+                    
+                    <div class="label-row">
+                        <span class="label-desc">MVA (15%):</span>
+                        <span class="label-price">${labelData.vat}</span>
+                    </div>
+                    
+                    <div class="label-row">
+                        <span class="label-desc">Totale kostnader:</span>
+                        <span class="label-price">${labelData.totalPrice}</span>
+                    </div>
+                    
+                    <div class="label-row">
+                        <span class="label-desc">Utsalgspris:</span>
+                        <span class="label-price">${labelData.salePrice}</span>
+                    </div>
+                    
+                    <div class="label-row">
+                        <span class="label-desc">Fortjeneste:</span>
+                        <span class="label-total">${labelData.profit}</span>
+                    </div>
+                </div>
+            `;
+
+            // Vis forhåndsvisning og utskrift-knapp
+            document.getElementById('labelPreview').style.display = 'block';
+            document.getElementById('printButtonContainer').style.display = 'block';
+            document.getElementById('labelPreview').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function exportLabelPNG() {
+            const labelElement = document.getElementById('labelContent');
+            
+            // Bruk html2canvas for å konvertere til PNG
+            html2canvas(labelElement, {
+                width: 400,
+                height: 551,
+                scale: 2, // Høy oppløsning
+                backgroundColor: '#ffffff',
+                useCORS: true,
+                allowTaint: false
+            }).then(canvas => {
+                // Last ned som PNG
+                const link = document.createElement('a');
+                const labelData = calculateLabelData();
+                link.download = `Kaffeetikett-${labelData.coffeeName.replace(/[^a-zA-Z0-9]/g, '')}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            }).catch(error => {
+                console.error('Feil ved PNG-eksport:', error);
+                alert('Kunne ikke eksportere til PNG. Prøv å bruke "Skriv ut etikett" i stedet.');
+            });
+        }
+
+
+        function printLabel() {
+            // Skjul alle andre elementer for utskrift
+            const originalContent = document.body.innerHTML;
+            const labelContent = document.getElementById('labelContent').outerHTML;
+            
+            // Opprett utskrift-vindu med bare etikett-innhold
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Kaffe-etikett</title>
+                    <style>
+                        @font-face {
+                            font-family: 'SportingGrotesque';
+                            src: url('SportingGrotesque-Regular.otf') format('opentype');
+                        }
+                        
+                        body { 
+                            margin: 0; 
+                            padding: 0; 
+                            font-family: 'SportingGrotesque', sans-serif;
+                        }
+                        
+                        .coffee-label {
+                            width: 400px;
+                            height: 551px;
+                            background: white;
+                            padding: 20px;
+                            font-family: 'SportingGrotesque', sans-serif;
+                            font-size: 24px;
+                            line-height: 1.3;
+                            color: #2d3748;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+                        }
+                        
+                        .label-header {
+                            text-align: center;
+                            border-bottom: 2px solid #4a5568;
+                            padding-bottom: 12px;
+                            margin-bottom: 16px;
+                        }
+                        
+                        .label-title {
+                            font-size: 28px;
+                            font-weight: bold;
+                            color: #2d3748;
+                            margin-bottom: 4px;
+                        }
+                        
+                        .label-subtitle {
+                            font-size: 18px;
+                            color: #718096;
+                        }
+                        
+                        .label-info {
+                            flex: 1;
+                            display: flex;
+                            flex-direction: column;
+                            gap: 12px;
+                        }
+                        
+                        .label-row {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            padding: 8px 0;
+                            border-bottom: 1px solid #e2e8f0;
+                        }
+                        
+                        .label-row:last-child {
+                            border-bottom: none;
+                            border-top: 2px solid #4a5568;
+                            padding-top: 12px;
+                            margin-top: 8px;
+                            font-weight: bold;
+                            font-size: 26px;
+                        }
+                        
+                        .label-desc {
+                            font-size: 20px;
+                            color: #4a5568;
+                        }
+                        
+                        .label-price {
+                            font-size: 22px;
+                            font-weight: bold;
+                            color: #2d3748;
+                        }
+                        
+                        .label-total {
+                            font-size: 28px;
+                            font-weight: bold;
+                            color: #1a202c;
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${labelContent}
+                </body>
+                </html>
+            `);
+            
+            printWindow.document.close();
+            
+            // Vent litt før utskrift for å sikre at innholdet er lastet
+            setTimeout(() => {
+                printWindow.print();
+                printWindow.close();
+            }, 500);
+        }
     </script>
     
     <!-- Kreditering -->
