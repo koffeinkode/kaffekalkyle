@@ -1,0 +1,2938 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaffekalkulator</title>
+    <style>
+        @font-face {
+            font-family: 'SportingGrotesque';
+            src: url('SportingGrotesque-Regular.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: #f7fafc;
+        }
+        
+        .coffee-calculator-wrapper {
+            all: initial;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #2d3748;
+            display: block;
+            width: 100%;
+            max-width: none;
+            margin: 0;
+            padding: 0;
+            background-color: #f7fafc;
+            border-radius: 0;
+            box-sizing: border-box;
+        }
+        
+        .coffee-calculator-wrapper *,
+        .coffee-calculator-wrapper *::before,
+        .coffee-calculator-wrapper *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .coffee-calculator-wrapper .container {
+            background-color: white;
+            padding: 0;
+            border-radius: 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .coffee-calculator-wrapper .hero-image {
+            width: 100vw;
+            height: 350px;
+            overflow: hidden;
+            border-radius: 0;
+            position: relative;
+            background: radial-gradient(circle at 30% 30%, #667eea 0%, #764ba2 25%, #4a5568 50%, #2d3748 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: -2px;
+            margin-right: -2px;
+        }
+        
+        /* Psykedelisk kaffee animasjon */
+        .psychedelic-coffee-animation {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Bølgelager */
+        .wave-layer {
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            top: -10%;
+            left: -10%;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: waveFlow 20s linear infinite;
+        }
+
+        .wave-1 {
+            background: radial-gradient(circle, transparent 30%, rgba(102, 126, 234, 0.6) 40%, transparent 60%);
+            animation-duration: 15s;
+            animation-direction: normal;
+        }
+
+        .wave-2 {
+            background: radial-gradient(circle, transparent 20%, rgba(118, 75, 162, 0.4) 35%, transparent 50%);
+            animation-duration: 22s;
+            animation-direction: reverse;
+        }
+
+        .wave-3 {
+            background: radial-gradient(circle, transparent 40%, rgba(74, 85, 104, 0.5) 50%, transparent 70%);
+            animation-duration: 18s;
+            animation-direction: normal;
+        }
+
+        .wave-4 {
+            background: radial-gradient(circle, transparent 25%, rgba(45, 55, 72, 0.3) 45%, transparent 65%);
+            animation-duration: 25s;
+            animation-direction: reverse;
+        }
+
+        @keyframes waveFlow {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        /* Flytende geometriske former */
+        .floating-bean {
+            position: absolute;
+            width: 20px;
+            height: 30px;
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 50%, #a78bfa 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: floatBean 12s ease-in-out infinite;
+            box-shadow: inset -5px -5px 10px rgba(0,0,0,0.3), 0 0 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .floating-bean::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 2px;
+            height: 60%;
+            background: #2d3748;
+            border-radius: 1px;
+        }
+
+        .bean-1 { top: 20%; left: 10%; animation-delay: 0s; animation-duration: 15s; }
+        .bean-2 { top: 60%; left: 80%; animation-delay: 2s; animation-duration: 18s; }
+        .bean-3 { top: 40%; left: 20%; animation-delay: 4s; animation-duration: 12s; }
+        .bean-4 { top: 80%; left: 60%; animation-delay: 6s; animation-duration: 20s; }
+        .bean-5 { top: 10%; left: 70%; animation-delay: 8s; animation-duration: 14s; }
+        .bean-6 { top: 70%; left: 30%; animation-delay: 10s; animation-duration: 16s; }
+
+        @keyframes floatBean {
+            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); opacity: 0.8; }
+            25% { transform: translateY(-30px) rotate(90deg) scale(1.2); opacity: 1; }
+            50% { transform: translateY(-60px) rotate(180deg) scale(0.9); opacity: 0.6; }
+            75% { transform: translateY(-30px) rotate(270deg) scale(1.1); opacity: 1; }
+        }
+
+        /* Spiraler */
+        .spiral {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border: 3px solid transparent;
+            border-radius: 50%;
+            animation: spiralSpin 10s linear infinite;
+        }
+
+        .spiral-1 {
+            top: 20%;
+            right: 10%;
+            border-top: 3px solid rgba(102, 126, 234, 0.7);
+            border-right: 3px solid rgba(118, 75, 162, 0.5);
+            animation-duration: 8s;
+        }
+
+        .spiral-2 {
+            bottom: 20%;
+            left: 10%;
+            border-bottom: 3px solid rgba(167, 139, 250, 0.6);
+            border-left: 3px solid rgba(74, 85, 104, 0.8);
+            animation-duration: 12s;
+            animation-direction: reverse;
+        }
+
+        @keyframes spiralSpin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.3); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        /* Geometrisk damp */
+        .coffee-steam {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, rgba(167, 139, 250, 0.4) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: steamRise 8s ease-in-out infinite;
+            filter: blur(2px);
+        }
+
+        .steam-1 {
+            bottom: 30%;
+            left: 20%;
+            animation-delay: 0s;
+        }
+
+        .steam-2 {
+            bottom: 40%;
+            right: 30%;
+            animation-delay: 2s;
+        }
+
+        .steam-3 {
+            bottom: 20%;
+            left: 60%;
+            animation-delay: 4s;
+        }
+
+        @keyframes steamRise {
+            0% { transform: translateY(0px) scale(0.8); opacity: 0; }
+            30% { opacity: 0.8; }
+            100% { transform: translateY(-200px) scale(1.5); opacity: 0; }
+        }
+
+        /* Kaleidoskop ringer */
+        .kaleidoscope-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            animation: kaleidoscopeRotate 15s linear infinite;
+        }
+
+        .ring-1 {
+            top: 50%;
+            left: 50%;
+            width: 150px;
+            height: 150px;
+            margin: -75px 0 0 -75px;
+            border-top: 2px solid rgba(102, 126, 234, 0.8);
+            border-bottom: 2px solid rgba(118, 75, 162, 0.6);
+            animation-duration: 12s;
+        }
+
+        .ring-2 {
+            top: 50%;
+            left: 50%;
+            width: 250px;
+            height: 250px;
+            margin: -125px 0 0 -125px;
+            border-left: 2px solid rgba(167, 139, 250, 0.7);
+            border-right: 2px solid rgba(74, 85, 104, 0.5);
+            animation-duration: 18s;
+            animation-direction: reverse;
+        }
+
+        .ring-3 {
+            top: 50%;
+            left: 50%;
+            width: 350px;
+            height: 350px;
+            margin: -175px 0 0 -175px;
+            border-top: 2px solid rgba(45, 55, 72, 0.4);
+            border-bottom: 2px solid rgba(102, 126, 234, 0.6);
+            animation-duration: 20s;
+        }
+
+        @keyframes kaleidoscopeRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Pulserende sirkler */
+        .pulsing-circle {
+            position: absolute;
+            border-radius: 50%;
+            animation: pulsate 6s ease-in-out infinite;
+        }
+
+        .circle-1 {
+            top: 15%;
+            left: 15%;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.6) 0%, transparent 70%);
+            animation-delay: 0s;
+        }
+
+        .circle-2 {
+            top: 70%;
+            right: 20%;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(167, 139, 250, 0.5) 0%, transparent 70%);
+            animation-delay: 2s;
+        }
+
+        .circle-3 {
+            top: 30%;
+            right: 15%;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, rgba(118, 75, 162, 0.7) 0%, transparent 70%);
+            animation-delay: 4s;
+        }
+
+        @keyframes pulsate {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.5); opacity: 1; }
+        }
+
+        /* Flytende matematiske formler */
+        .floating-formula {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.3);
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            font-weight: 400;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            animation: floatFormula 15s ease-in-out infinite;
+            z-index: 3;
+            background: rgba(102, 126, 234, 0.05);
+            padding: 3px 6px;
+            border-radius: 3px;
+            border: 1px solid rgba(167, 139, 250, 0.15);
+            backdrop-filter: blur(1px);
+        }
+
+        .formula-1 {
+            top: 15%;
+            left: 20%;
+            animation-delay: 0s;
+            animation-duration: 18s;
+        }
+
+        .formula-2 {
+            top: 25%;
+            right: 15%;
+            animation-delay: 3s;
+            animation-duration: 16s;
+        }
+
+        .formula-3 {
+            bottom: 30%;
+            left: 15%;
+            animation-delay: 6s;
+            animation-duration: 20s;
+        }
+
+        .formula-4 {
+            top: 60%;
+            right: 25%;
+            animation-delay: 9s;
+            animation-duration: 14s;
+        }
+
+        .formula-5 {
+            bottom: 20%;
+            right: 30%;
+            animation-delay: 12s;
+            animation-duration: 22s;
+        }
+
+        .formula-6 {
+            top: 45%;
+            left: 25%;
+            animation-delay: 15s;
+            animation-duration: 17s;
+        }
+
+        @keyframes floatFormula {
+            0%, 100% { 
+                transform: translateY(0px) translateX(0px) rotate(0deg); 
+                opacity: 0.2; 
+            }
+            25% { 
+                transform: translateY(-20px) translateX(10px) rotate(2deg); 
+                opacity: 0.4; 
+            }
+            50% { 
+                transform: translateY(-40px) translateX(-5px) rotate(-1deg); 
+                opacity: 0.6; 
+            }
+            75% { 
+                transform: translateY(-20px) translateX(-10px) rotate(1deg); 
+                opacity: 0.4; 
+            }
+        }
+        
+        .coffee-calculator-wrapper .content-wrapper {
+            padding: 32px;
+        }
+        
+        .coffee-calculator-wrapper h1 {
+            color: white;
+            text-align: center;
+            margin: 0;
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.6);
+            z-index: 10;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        .coffee-calculator-wrapper .hero-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 1;
+        }
+        
+        .coffee-calculator-wrapper .subtitle {
+            text-align: center;
+            color: #718096;
+            font-size: 16px;
+            margin-bottom: 32px;
+            font-weight: 500;
+        }
+        
+        .coffee-calculator-wrapper .key-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 120px 120px;
+            gap: 12px;
+            margin-bottom: 32px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #f7fafc;
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .coffee-calculator-wrapper .info-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            transition: transform 0.2s;
+            opacity: 0.8;
+        }
+        
+        .coffee-calculator-wrapper .info-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .coffee-calculator-wrapper .info-label {
+            font-size: 11px;
+            opacity: 0.9;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            font-weight: 600;
+        }
+        
+        .coffee-calculator-wrapper .info-value {
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+        
+        .coffee-calculator-wrapper .margin-input-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            transition: transform 0.2s;
+            opacity: 0.8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .coffee-calculator-wrapper .margin-input-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .coffee-calculator-wrapper .margin-input-card label {
+            font-size: 11px;
+            color: white;
+            opacity: 0.9;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            font-weight: 600;
+            margin: 0;
+            text-align: center;
+            line-height: 1.2;
+        }
+        
+        .coffee-calculator-wrapper .margin-input-card input {
+            width: 60px !important;
+            padding: 6px 8px !important;
+            font-size: 16px !important;
+            font-weight: 700 !important;
+            text-align: center !important;
+            border: 2px solid rgba(255,255,255,0.3) !important;
+            border-radius: 6px !important;
+            background: rgba(255,255,255,0.2) !important;
+            color: white !important;
+            backdrop-filter: blur(5px) !important;
+        }
+        
+        .coffee-calculator-wrapper .margin-input-card input:focus {
+            border-color: rgba(255,255,255,0.6) !important;
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.2) !important;
+            outline: none !important;
+        }
+        
+        .coffee-calculator-wrapper .margin-input-card input::placeholder {
+            color: rgba(255,255,255,0.7) !important;
+        }
+        
+        /* Desktop info-stripe - skjult på alle skjermstørrelser */
+        .coffee-calculator-wrapper .desktop-info-stripe {
+            display: none;
+        }
+        
+        .coffee-calculator-wrapper .desktop-coffee-name {
+            font-weight: 700;
+            color: #1a202c;
+            font-size: 18px;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        
+        .coffee-calculator-wrapper .desktop-prices {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #4a5568;
+        }
+        
+        .coffee-calculator-wrapper .desktop-price-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+        
+        .coffee-calculator-wrapper .desktop-label {
+            font-size: 12px;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+        
+        .coffee-calculator-wrapper .desktop-price-divider {
+            color: #cbd5e0;
+            margin: 0 12px;
+            font-size: 16px;
+        }
+        
+        .coffee-calculator-wrapper .desktop-margin-input {
+            width: 50px !important;
+            padding: 4px 6px !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
+            text-align: center !important;
+            border: 1px solid #cbd5e0 !important;
+            border-radius: 6px !important;
+            background: rgba(255,255,255,0.95) !important;
+            color: #2d3748 !important;
+            margin-top: 3px !important;
+            outline: none !important;
+            min-height: 24px !important;
+        }
+        
+        .coffee-calculator-wrapper .desktop-margin-input:focus {
+            border-color: #667eea !important;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2) !important;
+        }
+        
+        /* Sticky info-stripe for alle skjermstørrelser */
+        .coffee-calculator-wrapper .mobile-sticky-info {
+            display: block;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 25%, rgba(247, 250, 252, 0.95) 75%, #f7fafc 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 0 0 12px 12px;
+            padding: 12px 16px;
+            margin: 0 15px 16px 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .coffee-calculator-wrapper .input-section {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+            margin-bottom: 32px;
+            border: none;
+            box-shadow: none;
+        }
+        
+        .coffee-calculator-wrapper .green-coffee-section {
+            background-color: white;
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .coffee-calculator-wrapper .brewing-section {
+            background-color: white;
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .coffee-calculator-wrapper .input-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+        
+        .coffee-calculator-wrapper .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .coffee-calculator-wrapper label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 14px;
+        }
+        
+        .coffee-calculator-wrapper input {
+            width: 100% !important;
+            padding: 12px !important;
+            border: 2px solid #e2e8f0 !important;
+            border-radius: 8px !important;
+            font-size: 16px !important;
+            box-sizing: border-box !important;
+            font-family: inherit !important;
+            background-color: white !important;
+            color: #2d3748 !important;
+            transition: border-color 0.2s, box-shadow 0.2s !important;
+            outline: none !important;
+        }
+        
+        .coffee-calculator-wrapper input:focus {
+            border-color: #667eea !important;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+        }
+        
+        .coffee-calculator-wrapper .coffee-display {
+            background: linear-gradient(135deg, #f0fff4 0%, #f7fafc 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 32px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .coffee-calculator-wrapper .coffee-name {
+            font-weight: 700;
+            color: #1a202c;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+        
+        .coffee-calculator-wrapper .coffee-price {
+            font-size: 14px;
+            color: #718096;
+            margin-bottom: 8px;
+        }
+        
+        .coffee-calculator-wrapper .roasted-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #667eea;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+        
+        .coffee-calculator-wrapper .results {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-top: 32px;
+        }
+        
+        .coffee-calculator-wrapper .result-card {
+            background-color: white;
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .coffee-calculator-wrapper .result-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f7fafc;
+        }
+        
+        .coffee-calculator-wrapper .cost-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding: 8px 0;
+            font-size: 14px;
+            color: #4a5568;
+        }
+        
+        .coffee-calculator-wrapper .cost-item.total {
+            border-top: 2px solid #e2e8f0;
+            font-weight: 600;
+            margin-top: 16px;
+            padding-top: 16px;
+            color: #1a202c;
+            font-size: 16px;
+        }
+        
+        .coffee-calculator-wrapper .profit {
+            background: linear-gradient(135deg, #f0fff4 0%, #f7fafc 100%);
+            padding: 16px;
+            border-radius: 12px;
+            margin-top: 16px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .coffee-calculator-wrapper .profit-highlight {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a202c;
+        }
+        
+        .coffee-calculator-wrapper .salgspris-highlight {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white !important;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin: 12px 0;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .coffee-calculator-wrapper .profit-amount {
+            color: #667eea;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .coffee-calculator-wrapper h4 {
+            color: #1a202c;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .coffee-calculator-wrapper .pdf-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 24px auto 0;
+            display: block;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .coffee-calculator-wrapper .pdf-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .coffee-calculator-wrapper .pdf-button:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Etikett-stiler for 50x70mm ved 203 DPI (400x551px) */
+        .coffee-label {
+            width: 400px;
+            height: 551px;
+            background: white;
+            border: none;
+            border-radius: 0;
+            padding: 8px;
+            font-family: 'SportingGrotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 18px;
+            line-height: 1.2;
+            color: #2d3748;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: none;
+        }
+
+        .label-header {
+            text-align: center;
+            border-bottom: 2px solid #4a5568;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+        .label-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 4px;
+        }
+
+        .label-subtitle {
+            font-size: 16px;
+            color: #718096;
+        }
+
+        .label-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .label-row:last-child {
+            border-bottom: none;
+            border-top: 2px solid #4a5568;
+            padding-top: 12px;
+            margin-top: 8px;
+            font-weight: bold;
+            font-size: 26px;
+        }
+
+        .label-desc {
+            font-size: 16px;
+            color: #4a5568;
+        }
+
+        .label-price {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .label-total {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1a202c;
+        }
+
+        /* Print-stiler for etikett */
+        @media print {
+            .coffee-label {
+                width: 400px !important;
+                height: 551px !important;
+                margin: 0 !important;
+                border: none !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                page-break-inside: avoid;
+            }
+            
+            body {
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            
+            #labelPreview h3,
+            #labelPreview .pdf-button {
+                display: none !important;
+            }
+        }
+        
+        /* Print styles for PDF */
+        @media print {
+            .coffee-calculator-wrapper {
+                background-color: white !important;
+                margin: 0 !important;
+                padding: 20px !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+            }
+            
+            .coffee-calculator-wrapper .container {
+                box-shadow: none !important;
+                padding: 0 !important;
+            }
+            
+            .coffee-calculator-wrapper .input-section {
+                display: none !important;
+            }
+            
+            .coffee-calculator-wrapper .pdf-button {
+                display: none !important;
+            }
+            
+            .coffee-calculator-wrapper .results {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            
+            .coffee-calculator-wrapper .result-card {
+                break-inside: avoid;
+                page-break-inside: avoid;
+                margin-bottom: 20px;
+            }
+            
+            .coffee-calculator-wrapper h1 {
+                font-size: 2rem !important;
+                margin-bottom: 10px !important;
+            }
+            
+            .coffee-calculator-wrapper .subtitle {
+                margin-bottom: 20px !important;
+            }
+            
+            .coffee-calculator-wrapper .key-info {
+                margin-bottom: 20px !important;
+            }
+            
+            .coffee-calculator-wrapper .info-card {
+                background: #667eea !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            .coffee-calculator-wrapper .salgspris-highlight {
+                background: #667eea !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            .coffee-calculator-wrapper .profit {
+                background: #f0fff4 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .coffee-calculator-wrapper {
+                margin: 2px;
+                padding: 2px;
+            }
+            
+            /* Juster sticky-info på mobil for bedre midtstilling */
+            .coffee-calculator-wrapper .mobile-sticky-info {
+                margin: 0 15px 16px 15px;
+            }
+            
+            /* Midtstill alle seksjoner på mobil */
+            .coffee-calculator-wrapper .container {
+                margin-left: -3px;
+                margin-right: -3px;
+            }
+            
+            .coffee-calculator-wrapper .content-wrapper {
+                padding: 28px;
+            }
+            
+            /* Knapper i vertikal layout på mobil */
+            .button-container {
+                flex-direction: column !important;
+                align-items: center !important;
+                gap: 8px !important;
+            }
+            
+            .pdf-button {
+                width: 90% !important;
+                max-width: 300px !important;
+                margin: 0 !important;
+            }
+            
+            /* Reduser header-størrelse betydelig på mobil */
+            .coffee-calculator-wrapper .hero-image {
+                height: 200px; /* Ned fra 350px */
+            }
+            
+            .coffee-calculator-wrapper h1 {
+                font-size: 1.6rem !important; /* Ned fra 3rem */
+                white-space: nowrap !important;
+                top: 40% !important;
+            }
+            
+            /* Juster undertittel posisjon på mobil */
+            .coffee-calculator-wrapper .hero-image p {
+                top: calc(40% + 25px) !important;
+                font-size: 12px !important;
+            }
+            
+            /* Flytt svartkaffe input-seksjonen før lilla knapper */
+            .coffee-calculator-wrapper .content-wrapper {
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .coffee-calculator-wrapper .input-section {
+                order: 1; /* Grønnkaffe input-seksjon øverst */
+                margin-bottom: 20px;
+            }
+            
+            .coffee-calculator-wrapper .key-info {
+                display: none; /* Skjul lilla knapper på mobil */
+            }
+            
+            .coffee-calculator-wrapper .results {
+                order: 3; /* Resultat-kortene sist */
+                grid-template-columns: 1fr;
+            }
+            
+            .coffee-calculator-wrapper .input-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            /* Skjul integrert coffee-display på mobil (vi har sticky-stripe) */
+            .coffee-calculator-wrapper .integrated-coffee-display {
+                display: none;
+            }
+            
+            
+            /* Knappene helt til slutt */
+            .coffee-calculator-wrapper div[style*="display: flex"] {
+                order: 4;
+                margin-top: 30px;
+            }
+            
+            
+            .coffee-calculator-wrapper .sticky-coffee-name {
+                font-weight: 700;
+                color: #1a202c;
+                font-size: 16px;
+                margin-bottom: 6px;
+                text-align: center;
+            }
+            
+            .coffee-calculator-wrapper .sticky-prices {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 13px;
+                color: #4a5568;
+            }
+            
+            .coffee-calculator-wrapper .sticky-price-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                flex: 1;
+            }
+            
+            .coffee-calculator-wrapper .sticky-label {
+                font-size: 11px;
+                color: #718096;
+                text-transform: uppercase;
+                letter-spacing: 0.3px;
+                margin-bottom: 2px;
+            }
+            
+            .coffee-calculator-wrapper .sticky-price-divider {
+                color: #cbd5e0;
+                margin: 0 8px;
+            }
+            
+            .coffee-calculator-wrapper .sticky-margin-input {
+                width: 50px !important;
+                padding: 4px 6px !important;
+                font-size: 12px !important;
+                font-weight: 600 !important;
+                text-align: center !important;
+                border: 1px solid #cbd5e0 !important;
+                border-radius: 6px !important;
+                background: rgba(255,255,255,0.95) !important;
+                color: #2d3748 !important;
+                margin-top: 3px !important;
+                outline: none !important;
+                min-height: 24px !important;
+            }
+            
+            .coffee-calculator-wrapper .sticky-margin-input:focus {
+                border-color: #667eea !important;
+                box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2) !important;
+            }
+        }
+        
+        /* Desktop sticky menu optimalisering */
+        @media (min-width: 769px) {
+            .coffee-calculator-wrapper .mobile-sticky-info {
+                padding: 16px 24px;
+            }
+            
+            .coffee-calculator-wrapper .sticky-coffee-name {
+                font-size: 20px;
+                margin-bottom: 12px;
+                text-align: center;
+            }
+            
+            .coffee-calculator-wrapper .sticky-prices {
+                display: grid;
+                grid-template-columns: 1fr auto 1fr auto 1fr;
+                gap: 24px;
+                align-items: center;
+                max-width: 800px;
+                margin: 0 auto;
+                font-size: 14px;
+            }
+            
+            .coffee-calculator-wrapper .sticky-price-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                min-width: 100px;
+            }
+            
+            .coffee-calculator-wrapper .sticky-price-divider {
+                justify-self: center;
+                font-weight: 300;
+                color: #cbd5e0;
+                margin: 0;
+            }
+            
+            .coffee-calculator-wrapper .sticky-label {
+                font-size: 12px;
+                margin-bottom: 4px;
+                color: #718096;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+        }
+        
+            
+            /* Responsivt grønt felt */
+            .coffee-calculator-wrapper .coffee-display > div {
+                display: block !important;
+                text-align: left !important;
+            }
+            .coffee-calculator-wrapper .coffee-display > div > div {
+                margin-bottom: 8px;
+                text-align: left !important;
+            }
+            .coffee-calculator-wrapper .coffee-display > div > div:last-child {
+                text-align: center !important;
+                margin-top: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="coffee-calculator-wrapper">
+        <div class="container">
+            <div class="hero-image">
+                <div class="psychedelic-coffee-animation">
+                    <div class="wave-layer wave-1"></div>
+                    <div class="wave-layer wave-2"></div>
+                    <div class="wave-layer wave-3"></div>
+                    <div class="wave-layer wave-4"></div>
+                    <div class="floating-bean bean-1"></div>
+                    <div class="floating-bean bean-2"></div>
+                    <div class="floating-bean bean-3"></div>
+                    <div class="floating-bean bean-4"></div>
+                    <div class="floating-bean bean-5"></div>
+                    <div class="floating-bean bean-6"></div>
+                    <div class="spiral spiral-1"></div>
+                    <div class="spiral spiral-2"></div>
+                    <div class="coffee-steam steam-1"></div>
+                    <div class="coffee-steam steam-2"></div>
+                    <div class="coffee-steam steam-3"></div>
+                    <div class="kaleidoscope-ring ring-1"></div>
+                    <div class="kaleidoscope-ring ring-2"></div>
+                    <div class="kaleidoscope-ring ring-3"></div>
+                    <div class="pulsing-circle circle-1"></div>
+                    <div class="pulsing-circle circle-2"></div>
+                    <div class="pulsing-circle circle-3"></div>
+                    <div class="floating-formula formula-1" data-coffee-words='["Fascinating", "Extraordinary", "Quite interesting", "Rather lovely"]'>Fascinating</div>
+                    <div class="floating-formula formula-2" data-coffee-words='["Delightful", "Complexity", "Clarity", "Balance"]'>Delightful</div>
+                    <div class="floating-formula formula-3" data-coffee-words='["Brightness", "Acidity", "Sweetness", "Body"]'>Brightness</div>
+                    <div class="floating-formula formula-4" data-coffee-words='["Extraction", "Uniformity", "Technique", "Precision"]'>Extraction</div>
+                    <div class="floating-formula formula-5" data-coffee-words='["Grind size", "Water temperature", "Brew ratio", "Contact time"]'>Grind size</div>
+                    <div class="floating-formula formula-6" data-coffee-words='["Terroir", "Processing", "Roast development", "Cupping notes"]'>Terroir</div>
+                </div>
+                <h1>Kaffekalkyler</h1>
+                <p style="color: white; font-size: 14px; position: absolute; top: calc(45% + 40px); left: 50%; transform: translateX(-50%); z-index: 10; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); text-align: center; max-width: 90%; padding: 0 10px;">Rask oversikt over utsalgspris på kaffe basert på grønnkaffe-kilopris</p>
+            </div>
+            </div>
+            
+            <!-- Sticky info-stripe kun for mobil -->
+            <div class="mobile-sticky-info">
+                <div class="sticky-coffee-name" id="stickyKaffenavnDisplay">Rwanda: Intego</div>
+                <div class="sticky-prices">
+                    <span class="sticky-price-item">
+                        <span class="sticky-label">Grønn:</span>
+                        <span id="stickyGreenPrice">160 kr/kg</span>
+                    </span>
+                    <span class="sticky-price-divider">|</span>
+                    <span class="sticky-price-item">
+                        <span class="sticky-label">Pose:</span>
+                        <span id="stickyBagPrice">245 kr</span>
+                        <div style="display: flex; align-items: center; gap: 2px; justify-content: center; margin-top: 2px;">
+                            <input type="number" class="sticky-margin-input" id="stickyBagMargin" value="60" min="0" max="100" step="1">
+                            <span style="font-size: 11px; color: #718096;">%</span>
+                        </div>
+                    </span>
+                    <span class="sticky-price-divider">|</span>
+                    <span class="sticky-price-item">
+                        <span class="sticky-label">Takeaway:</span>
+                        <span id="stickyCupPrice">72 kr</span>
+                        <div style="display: flex; align-items: center; gap: 2px; justify-content: center; margin-top: 2px;">
+                            <input type="number" class="sticky-margin-input" id="stickyCupMargin" value="60" min="0" max="100" step="1">
+                            <span style="font-size: 11px; color: #718096;">%</span>
+                        </div>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="content-wrapper">
+                <div class="desktop-info-stripe">
+                    <div class="desktop-coffee-name" id="desktopKaffenavnDisplay">Rwanda: Intego</div>
+                    <div class="desktop-prices">
+                        <span class="desktop-price-item">
+                            <span class="desktop-label">Grønn:</span>
+                            <span id="desktopGreenPrice">160 kr/kg</span>
+                        </span>
+                        <span class="desktop-price-divider">|</span>
+                        <span class="desktop-price-item">
+                            <span class="desktop-label">Råvare brent:</span>
+                            <span id="desktopRawMaterialPrice">226,06 kr/kg</span>
+                        </span>
+                        <span class="desktop-price-divider">|</span>
+                        <span class="desktop-price-item">
+                            <span class="desktop-label">Pose:</span>
+                            <span id="desktopBagPrice">245 kr</span>
+                            <div style="display: flex; align-items: center; gap: 2px; justify-content: center; margin-top: 2px;">
+                                <input type="number" class="desktop-margin-input" id="desktopBagMargin" value="60" min="0" max="100" step="1">
+                                <span style="font-size: 11px; color: #4a5568;">%</span>
+                            </div>
+                        </span>
+                        <span class="desktop-price-divider">|</span>
+                        <span class="desktop-price-item">
+                            <span class="desktop-label">Takeaway:</span>
+                            <span id="desktopCupPrice">72 kr</span>
+                            <div style="display: flex; align-items: center; gap: 2px; justify-content: center; margin-top: 2px;">
+                                <input type="number" class="desktop-margin-input" id="desktopCupMargin" value="60" min="0" max="100" step="1">
+                                <span style="font-size: 11px; color: #4a5568;">%</span>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+        
+        <div class="input-section">
+            <div class="input-grid">
+                <div class="green-coffee-section">
+                    <h4 style="color: #2d5016; margin-bottom: 15px;">Grønnkaffe</h4>
+                    <div class="input-group">
+                        <label for="coffeeName">Grønnkaffe:</label>
+                        <input type="text" id="coffeeName" value="Rwanda: Intego" placeholder="F.eks. Rwanda: Intego">
+                    </div>
+                    <div class="input-group">
+                        <label for="greenCoffeePrice">Pris per kg grønn kaffe (kr):</label>
+                        <input type="number" id="greenCoffeePrice" value="160" step="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label for="shippingCost">Frakt per forsendelse (kr):</label>
+                        <input type="number" id="shippingCost" value="0" step="0.01" placeholder="Valgfritt">
+                    </div>
+                    <div class="input-group">
+                        <label for="orderQuantity">Bestilt mengde (kg):</label>
+                        <input type="number" id="orderQuantity" value="1" step="0.1" placeholder="F.eks. 35 kg">
+                    </div>
+                    <div class="input-group">
+                        <label for="weightLoss">Vekttap ved brenning (%):</label>
+                        <input type="number" id="weightLoss" value="12.5" step="0.1" min="0" max="50" placeholder="F.eks. 12.5">
+                    </div>
+                    
+                    <!-- Integrert coffee-display i grønnkaffe-seksjon -->
+                    <div class="integrated-coffee-display" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #d1d1d1;">
+                        <div class="input-group">
+                            <label>Kort oppsummert:</label>
+                            <div style="background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                <div style="font-weight: 600; color: #1a202c; font-size: 14px; margin-bottom: 4px;" id="coffeeNameDisplay">Ukjent kaffe</div>
+                                <div style="font-size: 13px; color: #4a5568; margin-bottom: 2px;">Grønn kaffe + frakt + 15% MVA: <span id="greenTotalPrice">197,80 kr/kg</span></div>
+                                <div style="font-size: 13px; color: #4a5568; margin-bottom: 2px;">Etter <span id="weightLossDisplay">12,5</span>% vekttap under brenning:</div>
+                                <div style="font-weight: 600; color: #667eea; font-size: 14px;" id="roastedPrice">226,06 kr/kg brent kaffe</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="brewing-section">
+                    <h4 style="color: #8B4513; margin-bottom: 15px;">Lønn og forbruksvarer</h4>
+                    <div class="input-group">
+                        <label for="hourlyWage">Timelønn (kr/time):</label>
+                        <input type="number" id="hourlyWage" value="250" step="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label for="employerTax">Arbeidsgiveravgift (%):</label>
+                        <input type="number" id="employerTax" value="14.1" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label for="coffeeGrams">Kaffe per kopp (gram):</label>
+                        <input type="number" id="coffeeGrams" value="15" step="0.1" min="10" max="30">
+                    </div>
+                    <div class="input-group">
+                        <label for="brewTime">Bryggingstid (minutter):</label>
+                        <input type="number" id="brewTime" value="4" step="0.5" min="1" max="10">
+                    </div>
+                    <div class="input-group">
+                        <label for="cupPrice">Pappkopp + lokk (kr):</label>
+                        <input type="number" id="cupPrice" value="0.80" step="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label for="filterPrice">Kaffefilter (kr):</label>
+                        <input type="number" id="filterPrice" value="0.80" step="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label for="bagPrice">Emballasje (kr):</label>
+                        <input type="number" id="bagPrice" value="7.00" step="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label for="bagGrams">Posevekt (g):</label>
+                        <input type="number" id="bagGrams" value="200" step="1" min="50" max="500">
+                    </div>
+                    
+                    <!-- Skjulte margin inputs for kalkylen -->
+                    <input type="hidden" id="bagTargetMargin" value="60">
+                    <input type="hidden" id="cupTargetMargin" value="60">
+                </div>
+            </div>
+        </div>
+
+        <div class="results">
+            <div class="result-card">
+                <div class="result-title">Kaffepose (<span id="bagGramsDisplay">250</span>g)</div>
+                <div class="cost-item">
+                    <span>Brent kaffe (<span id="bagGramsDisplay2">250</span>g):</span>
+                    <span id="bagCoffeePrice">56,52 kr</span>
+                </div>
+                <div class="cost-item">
+                    <span>Emballasje:</span>
+                    <span id="bagCostDisplay">7,00 kr</span>
+                </div>
+                <div class="cost-item">
+                    <span>Kortterminal-gebyr (1,75%):</span>
+                    <span id="bagTransaction">4,29 kr</span>
+                </div>
+                <div class="cost-item">
+                    <span>MVA (15%):</span>
+                    <span id="bagVAT">36,75 kr</span>
+                </div>
+                <div class="cost-item total">
+                    <span>Totale kostnader:</span>
+                    <span id="bagTotalCost">118,83 kr</span>
+                </div>
+                <div class="profit">
+                    <div class="cost-item salgspris-highlight">
+                        <span>📦 <strong>Utsalgspris: Kaffepose</strong></span>
+                        <span id="bagCustomPriceDisplay">245,00 kr</span>
+                    </div>
+                    <div class="cost-item profit-highlight">
+                        <span>Produksjonskostnad og margin:</span>
+                        <span class="profit-amount" id="bagProfit">126,17 kr</span>
+                    </div>
+                    <div class="cost-item">
+                        <span>Profittmargin:</span>
+                        <span id="bagActualMarginValue">62%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="result-card">
+                <div class="result-title">Takeaway-kaffe (<span id="coffeeGramsDisplay">15</span>g)</div>
+                <div class="cost-item">
+                    <span>Brent kaffe (<span id="coffeeGramsDisplay2">15</span>g):</span>
+                    <span id="cupCoffeePrice">3,39 kr</span>
+                </div>
+                <div class="cost-item">
+                    <span>Papirkopp + lokk:</span>
+                    <span id="cupCostDisplay">0,80 kr</span>
+                </div>
+                <div class="cost-item">
+                    <span>Kaffefilter:</span>
+                    <span id="filterCostDisplay">0,80 kr</span>
+                </div>
+                <div class="cost-item">
+                    <span>Lønn (<span id="brewTimeDisplay">4</span> min):</span>
+                    <span id="cupLabor">19,02 kr</span>
+                </div>
+                <div class="cost-item">
+                    <span>Kortterminal-gebyr (1,75%):</span>
+                    <span id="cupTransaction">1,26 kr</span>
+                </div>
+                <div class="cost-item">
+                    <span>MVA (15%):</span>
+                    <span id="cupVAT">10,80 kr</span>
+                </div>
+                <div class="cost-item total">
+                    <span>Totale kostnader:</span>
+                    <span id="cupTotalCost">36,07 kr</span>
+                </div>
+                <div class="profit">
+                    <div class="cost-item salgspris-highlight">
+                        <span>☕ <strong>Utsalgspris: Takeaway</strong></span>
+                        <span id="cupCustomPriceDisplay">72,00 kr</span>
+                    </div>
+                    <div class="cost-item profit-highlight">
+                        <span>Produksjonskostnad og margin:</span>
+                        <span class="profit-amount" id="cupProfit">35,93 kr</span>
+                    </div>
+                    <div class="cost-item">
+                        <span>Profittmargin:</span>
+                        <span id="cupActualMarginValue">60%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="button-container" style="display: flex; gap: 12px; justify-content: center; margin-top: 24px; margin-bottom: 80px;">
+            <button class="pdf-button" onclick="exportLabelPNG()">🏷️ Last ned kalkyleetikett</button>
+            <button class="pdf-button" onclick="saveData()">💾 Husk denne kalkylen</button>
+            <button class="pdf-button" onclick="resetData()">🔄 Reset til standard</button>
+            <button class="pdf-button" onclick="generatePDF()">📄 Last ned PDF</button>
+        </div>
+
+        <!-- Etikett forhåndsvisning -->
+        <div id="labelPreview" style="display: none; margin: 24px auto; padding: 20px; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 500px;">
+            <h3 style="text-align: center; margin-bottom: 16px; color: #2d3748;">Etikett-forhåndsvisning</h3>
+            <div style="display: flex; justify-content: center; margin-bottom: 16px;">
+                <div id="labelContent" class="coffee-label">
+                    <!-- Etikett-innhold genereres her -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Utskrift-knapp under preview -->
+        <div id="printButtonContainer" style="display: none; text-align: center; margin: 16px auto 24px; max-width: 500px;">
+            <button class="pdf-button" onclick="printLabel()">🖨️ Skriv ut etikett</button>
+            <button class="pdf-button" onclick="exportLabelPNG()">🖼️ Last ned som PNG</button>
+        </div>
+            </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        function calculateAll() {
+            console.log('=== CALCULATE ALL START ===');
+            
+            // Hent alle verdier fra input-feltene
+            const coffeeName = document.getElementById('coffeeName').value || 'Ukjent kaffe';
+            const greenCoffeePrice = parseFloat(document.getElementById('greenCoffeePrice').value) || 0;
+            const shippingCost = parseFloat(document.getElementById('shippingCost').value) || 0;
+            const orderQuantity = parseFloat(document.getElementById('orderQuantity').value) || 1;
+            const weightLoss = parseFloat(document.getElementById('weightLoss').value) || 12.5;
+            const coffeeGrams = parseFloat(document.getElementById('coffeeGrams').value) || 15;
+            const brewTime = parseFloat(document.getElementById('brewTime').value) || 4;
+            const hourlyWage = parseFloat(document.getElementById('hourlyWage').value) || 250;
+            const employerTax = parseFloat(document.getElementById('employerTax').value) || 14.1;
+            const cupPrice = parseFloat(document.getElementById('cupPrice').value) || 0;
+            const filterPrice = parseFloat(document.getElementById('filterPrice').value) || 0;
+            const bagPrice = parseFloat(document.getElementById('bagPrice').value) || 0;
+            const bagGrams = parseFloat(document.getElementById('bagGrams').value) || 250;
+            const cupTargetMargin = parseFloat(document.getElementById('cupTargetMargin').value) || 60;
+            const bagTargetMargin = parseFloat(document.getElementById('bagTargetMargin').value) || 60;
+            
+            console.log('calculateAll: cupTargetMargin =', cupTargetMargin, 'bagTargetMargin =', bagTargetMargin);
+            
+            // Beregn grunnleggende priser
+            const shippingPerKg = orderQuantity > 0 ? shippingCost / orderQuantity : 0;
+            const totalGreenPrice = (greenCoffeePrice + shippingPerKg) * 1.15; // 15% MVA
+            const roastedPrice = totalGreenPrice / ((100 - weightLoss) / 100); // Dynamisk vekttap
+            const totalHourlyWage = hourlyWage * (1 + employerTax / 100);
+            
+            // Oppdater kaffeinformasjon
+            document.getElementById('coffeeNameDisplay').textContent = coffeeName;
+            document.getElementById('greenTotalPrice').textContent = totalGreenPrice.toFixed(2) + ' kr/kg';
+            document.getElementById('roastedPrice').textContent = roastedPrice.toFixed(2) + ' kr/kg brent kaffe';
+            document.getElementById('weightLossDisplay').textContent = weightLoss.toFixed(1);
+            
+            // Oppdater sticky mobile info
+            document.getElementById('stickyKaffenavnDisplay').textContent = coffeeName;
+            document.getElementById('stickyGreenPrice').textContent = greenCoffeePrice.toFixed(0) + ' kr/kg';
+            
+            // Oppdater råvarepris øverst (hvis elementet eksisterer)
+            const rawMaterialPriceElement = document.getElementById('rawMaterialPrice');
+            if (rawMaterialPriceElement) {
+                rawMaterialPriceElement.textContent = roastedPrice.toFixed(2) + ' kr/kg';
+            }
+            
+            // Beregn anbefalte priser med ønskede marginer
+            const recommendedCupPrice = calculateRecommendedPrice(roastedPrice, coffeeGrams, brewTime, totalHourlyWage, cupPrice, filterPrice, cupTargetMargin / 100);
+            const recommendedBagPrice = calculateRecommendedPrice(roastedPrice, bagGrams, 3, totalHourlyWage, bagPrice, 0, bagTargetMargin / 100);
+            
+            console.log('Recommended prices:', {
+                cupPrice: recommendedCupPrice,
+                bagPrice: recommendedBagPrice,
+                cupMargin: cupTargetMargin,
+                bagMargin: bagTargetMargin
+            });
+            
+            // Oppdater anbefalte priser øverst (hvis elementene eksisterer)
+            const recommendedCupPriceElement = document.getElementById('recommendedCupPrice');
+            const recommendedBagPriceElement = document.getElementById('recommendedBagPrice');
+            if (recommendedCupPriceElement) {
+                recommendedCupPriceElement.textContent = recommendedCupPrice.toFixed(0) + ' kr';
+            }
+            if (recommendedBagPriceElement) {
+                recommendedBagPriceElement.textContent = recommendedBagPrice.toFixed(0) + ' kr';
+            }
+            
+            // Oppdater sticky mobile prices
+            document.getElementById('stickyBagPrice').textContent = recommendedBagPrice.toFixed(0) + ' kr';
+            document.getElementById('stickyCupPrice').textContent = recommendedCupPrice.toFixed(0) + ' kr';
+            
+            // Oppdater sticky margin inputs
+            document.getElementById('stickyBagMargin').value = bagTargetMargin;
+            document.getElementById('stickyCupMargin').value = cupTargetMargin;
+            
+            // Oppdater desktop info stripe (hvis elementene eksisterer)
+            const desktopKaffenavnElement = document.getElementById('desktopKaffenavnDisplay');
+            const desktopGreenPriceElement = document.getElementById('desktopGreenPrice');
+            const desktopRawMaterialPriceElement = document.getElementById('desktopRawMaterialPrice');
+            const desktopBagPriceElement = document.getElementById('desktopBagPrice');
+            const desktopCupPriceElement = document.getElementById('desktopCupPrice');
+            
+            if (desktopKaffenavnElement) desktopKaffenavnElement.textContent = coffeeName;
+            if (desktopGreenPriceElement) desktopGreenPriceElement.textContent = greenCoffeePrice.toFixed(0) + ' kr/kg';
+            if (desktopRawMaterialPriceElement) desktopRawMaterialPriceElement.textContent = roastedPrice.toFixed(2) + ' kr/kg';
+            if (desktopBagPriceElement) desktopBagPriceElement.textContent = recommendedBagPrice.toFixed(0) + ' kr';
+            if (desktopCupPriceElement) desktopCupPriceElement.textContent = recommendedCupPrice.toFixed(0) + ' kr';
+            
+            // Oppdater desktop margin inputs (hvis elementene eksisterer)
+            const desktopBagMarginElement = document.getElementById('desktopBagMargin');
+            const desktopCupMarginElement = document.getElementById('desktopCupMargin');
+            if (desktopBagMarginElement) {
+                desktopBagMarginElement.value = bagTargetMargin;
+            }
+            if (desktopCupMarginElement) {
+                desktopCupMarginElement.value = cupTargetMargin;
+            }
+            
+            // Oppdater marginvisninger øverst (hvis elementene eksisterer)
+            const cupMarginDisplayElement = document.getElementById('cupMarginDisplay');
+            const bagMarginDisplayElement = document.getElementById('bagMarginDisplay');
+            if (cupMarginDisplayElement) {
+                cupMarginDisplayElement.textContent = cupTargetMargin;
+            }
+            if (bagMarginDisplayElement) {
+                bagMarginDisplayElement.textContent = bagTargetMargin;
+            }
+            
+            // Oppdater gram-visninger
+            document.getElementById('coffeeGramsDisplay').textContent = coffeeGrams;
+            document.getElementById('coffeeGramsDisplay2').textContent = coffeeGrams;
+            document.getElementById('brewTimeDisplay').textContent = brewTime;
+            document.getElementById('bagGramsDisplay').textContent = bagGrams;
+            document.getElementById('bagGramsDisplay2').textContent = bagGrams;
+            
+            // TAKEAWAY-KAFFE BEREGNINGER med anbefalte priser basert på margin
+            const cupCoffeePrice = roastedPrice * (coffeeGrams / 1000);
+            const cupLabor = totalHourlyWage * (brewTime / 60);
+            const cupTransaction = recommendedCupPrice * 0.0175;
+            const cupVAT = recommendedCupPrice * 0.15;
+            const cupDirectCosts = cupCoffeePrice + cupPrice + filterPrice + cupLabor;
+            const cupTotalCost = cupDirectCosts + cupTransaction + cupVAT;
+            const cupNetIncome = recommendedCupPrice - cupTransaction - cupVAT;
+            const cupProfit = cupNetIncome - cupDirectCosts;
+            const cupActualMargin = cupNetIncome > 0 ? (cupProfit / cupNetIncome) * 100 : 0;
+            
+            // Oppdater takeaway-visning
+            document.getElementById('cupCoffeePrice').textContent = cupCoffeePrice.toFixed(2) + ' kr';
+            document.getElementById('cupCostDisplay').textContent = cupPrice.toFixed(2) + ' kr';
+            document.getElementById('filterCostDisplay').textContent = filterPrice.toFixed(2) + ' kr';
+            document.getElementById('cupLabor').textContent = cupLabor.toFixed(2) + ' kr';
+            document.getElementById('cupTransaction').textContent = cupTransaction.toFixed(2) + ' kr';
+            document.getElementById('cupVAT').textContent = cupVAT.toFixed(2) + ' kr';
+            document.getElementById('cupTotalCost').textContent = cupTotalCost.toFixed(2) + ' kr';
+            document.getElementById('cupCustomPriceDisplay').textContent = recommendedCupPrice.toFixed(0) + ' kr';
+            document.getElementById('cupProfit').textContent = cupProfit.toFixed(2) + ' kr';
+            document.getElementById('cupActualMarginValue').textContent = Math.max(0, cupActualMargin).toFixed(0) + '%';
+            
+            // KAFFEPOSE BEREGNINGER med anbefalte priser basert på margin
+            const bagCoffeePrice = roastedPrice * (bagGrams / 1000);
+            const bagLabor = totalHourlyWage * (3/60);
+            const bagDirectCosts = bagCoffeePrice + bagPrice + bagLabor;
+            
+            // Beregn gebyr og MVA basert på recommendedBagPrice (som tar hensyn til margin)
+            const bagTransaction = recommendedBagPrice * 0.0175;
+            const bagVAT = recommendedBagPrice * 0.15;
+            const bagTotalCost = bagDirectCosts + bagTransaction + bagVAT;
+            const bagNetIncome = recommendedBagPrice - bagTransaction - bagVAT;
+            const bagProfit = bagNetIncome - bagDirectCosts;
+            const bagActualMargin = bagNetIncome > 0 ? (bagProfit / bagNetIncome) * 100 : 0;
+            
+            // Oppdater kaffepose-visning
+            document.getElementById('bagCoffeePrice').textContent = bagCoffeePrice.toFixed(2) + ' kr';
+            document.getElementById('bagCostDisplay').textContent = bagPrice.toFixed(2) + ' kr';
+            document.getElementById('bagTransaction').textContent = bagTransaction.toFixed(2) + ' kr';
+            document.getElementById('bagVAT').textContent = bagVAT.toFixed(2) + ' kr';
+            document.getElementById('bagTotalCost').textContent = bagTotalCost.toFixed(2) + ' kr';
+            document.getElementById('bagCustomPriceDisplay').textContent = recommendedBagPrice.toFixed(0) + ' kr';
+            document.getElementById('bagProfit').textContent = bagProfit.toFixed(2) + ' kr';
+            document.getElementById('bagActualMarginValue').textContent = Math.max(0, bagActualMargin).toFixed(0) + '%';
+            
+            console.log('=== CALCULATE ALL END ===');
+        }
+
+        function calculateRecommendedPrice(roastedPrice, grams, timeMinutes, totalHourlyWage, packagingCost, filterCost, targetMargin) {
+            const coffeePrice = roastedPrice * (grams / 1000);
+            const laborCost = totalHourlyWage * (timeMinutes / 60);
+            const directCosts = coffeePrice + packagingCost + (filterCost || 0) + laborCost;
+            const netIncome = directCosts / (1 - targetMargin);
+            const salePrice = netIncome / 0.8325;
+            return salePrice;
+        }
+
+        // Standard-verdier som brukes ved reset
+        const defaultValues = {
+            coffeeName: 'Rwanda: Intego',
+            greenCoffeePrice: 160,
+            shippingCost: 0,
+            orderQuantity: 1,
+            weightLoss: 12.5,
+            hourlyWage: 250,
+            employerTax: 14.1,
+            coffeeGrams: 15,
+            brewTime: 4,
+            cupPrice: 0.80,
+            filterPrice: 0.80,
+            bagPrice: 7.00,
+            bagGrams: 250,
+            cupTargetMargin: 60,
+            bagTargetMargin: 60
+        };
+
+        function saveData() {
+            try {
+                const data = {};
+                const inputIds = [
+                    'coffeeName', 'greenCoffeePrice', 'shippingCost', 'orderQuantity', 'weightLoss',
+                    'coffeeGrams', 'brewTime', 'hourlyWage', 'employerTax',
+                    'cupPrice', 'filterPrice', 'bagPrice', 'bagGrams',
+                    'cupTargetMargin', 'bagTargetMargin'
+                ];
+                
+                inputIds.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        data[id] = element.value;
+                    }
+                });
+                
+                localStorage.setItem('kaffekalkulatorData', JSON.stringify(data));
+                
+                // Vis bekreftelse
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '✅ Lagret!';
+                button.style.background = '#48bb78';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                }, 2000);
+                
+            } catch (error) {
+                console.error('Feil ved lagring:', error);
+                alert('Kunne ikke lagre data. Sjekk at nettleseren støtter localStorage.');
+            }
+        }
+
+        function resetData() {
+            if (confirm('Er du sikker på at du vil tilbakestille alle verdier til standard?')) {
+                // Sett alle felt tilbake til standard-verdier
+                Object.keys(defaultValues).forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.value = defaultValues[id];
+                    }
+                });
+                
+                // Oppdater beregninger
+                calculateAll();
+                
+                // Vis bekreftelse
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '✅ Tilbakestilt!';
+                button.style.background = '#ed8936';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                }, 2000);
+            }
+        }
+
+        function loadSavedData() {
+            try {
+                const savedData = localStorage.getItem('kaffekalkulatorData');
+                if (savedData) {
+                    const data = JSON.parse(savedData);
+                    
+                    // Last inn lagrede verdier
+                    Object.keys(data).forEach(id => {
+                        const element = document.getElementById(id);
+                        if (element && data[id] !== undefined && data[id] !== null) {
+                            element.value = data[id];
+                        }
+                    });
+                    
+                    // Synkroniser margin inputs
+                    const bagTargetMargin = document.getElementById('bagTargetMargin').value || 60;
+                    const cupTargetMargin = document.getElementById('cupTargetMargin').value || 60;
+                    
+                    // Oppdater sticky margin inputs
+                    const stickyBagMargin = document.getElementById('stickyBagMargin');
+                    const stickyCupMargin = document.getElementById('stickyCupMargin');
+                    if (stickyBagMargin) stickyBagMargin.value = bagTargetMargin;
+                    if (stickyCupMargin) stickyCupMargin.value = cupTargetMargin;
+                    
+                    // Oppdater desktop margin inputs
+                    const desktopBagMargin = document.getElementById('desktopBagMargin');
+                    const desktopCupMargin = document.getElementById('desktopCupMargin');
+                    if (desktopBagMargin) desktopBagMargin.value = bagTargetMargin;
+                    if (desktopCupMargin) desktopCupMargin.value = cupTargetMargin;
+                    
+                    console.log('Lagrede data lastet inn');
+                    return true;
+                }
+            } catch (error) {
+                console.error('Feil ved innlasting av lagrede data:', error);
+            }
+            return false;
+        }
+
+        function generatePDF() {
+            // Finn PDF-knappen som ble klikket
+            const buttons = document.querySelectorAll('.pdf-button');
+            const button = Array.from(buttons).find(btn => btn.textContent.includes('Last ned PDF'));
+            button.disabled = true;
+            button.textContent = 'Genererer PDF...';
+            
+            try {
+                console.log('Starting PDF generation...');
+                
+                // Sørg for at alle beregninger er oppdatert
+                calculateAll();
+                
+                // Hjelpefunksjon for å hente element-innhold med feilhåndtering
+                function getElementValue(id, isInput = false) {
+                    const element = document.getElementById(id);
+                    if (!element) {
+                        console.warn(`Element med ID '${id}' ikke funnet`);
+                        return isInput ? '0' : '0 kr';
+                    }
+                    return isInput ? element.value : element.textContent;
+                }
+                
+                // Samle alle data
+                const coffeeName = getElementValue('coffeeName', true) || 'Ukjent kaffe';
+                const currentDate = new Date().toLocaleDateString('no-NO');
+                const greenCoffeePrice = getElementValue('greenCoffeePrice', true);
+                const shippingCost = getElementValue('shippingCost', true);
+                const orderQuantity = getElementValue('orderQuantity', true);
+                const weightLoss = getElementValue('weightLoss', true);
+                const hourlyWage = getElementValue('hourlyWage', true);
+                const employerTax = getElementValue('employerTax', true);
+                const cupPrice = getElementValue('cupPrice', true);
+                const filterPrice = getElementValue('filterPrice', true);
+                const bagPrice = getElementValue('bagPrice', true);
+                const cupTargetMargin = getElementValue('cupTargetMargin', true);
+                const bagTargetMargin = getElementValue('bagTargetMargin', true);
+                
+                // Hent alle verdier - bruk sticky prices som faktisk eksisterer
+                const rawMaterialPrice = getElementValue('roastedPrice') || '0 kr/kg';
+                const recommendedCupPrice = getElementValue('stickyCupPrice');
+                const recommendedBagPrice = getElementValue('stickyBagPrice');
+                
+                // Takeaway data
+                const cupCoffeePrice = getElementValue('cupCoffeePrice');
+                const cupCostDisplay = getElementValue('cupCostDisplay');
+                const filterCostDisplay = getElementValue('filterCostDisplay');
+                const cupLabor = getElementValue('cupLabor');
+                const cupTransaction = getElementValue('cupTransaction');
+                const cupVAT = getElementValue('cupVAT');
+                const cupTotalCost = getElementValue('cupTotalCost');
+                const cupCustomPriceDisplay = getElementValue('cupCustomPriceDisplay');
+                const cupProfit = getElementValue('cupProfit');
+                const cupActualMargin = getElementValue('cupActualMarginValue');
+                const coffeeGrams = getElementValue('coffeeGrams', true);
+                const brewTime = getElementValue('brewTime', true);
+                
+                // Kaffepose data
+                const bagCoffeePrice = getElementValue('bagCoffeePrice');
+                const bagCostDisplay = getElementValue('bagCostDisplay');
+                const bagLabor = 0; // Lønnskostnad ikke lenger vist
+                const bagTransaction = getElementValue('bagTransaction');
+                const bagVAT = getElementValue('bagVAT');
+                const bagTotalCost = getElementValue('bagTotalCost');
+                const bagCustomPriceDisplay = getElementValue('bagCustomPriceDisplay');
+                const bagProfit = getElementValue('bagProfit');
+                const bagActualMargin = getElementValue('bagActualMarginValue');
+                const bagGrams = getElementValue('bagGrams', true);
+                
+                console.log('All data collected successfully');
+                
+                // Lag HTML for PDF-vindu
+                const pdfHTML = `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Koffeinvinduets kaffekalkulator - ${coffeeName}</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background: white; 
+            color: #333;
+            line-height: 1.4;
+        }
+        .header { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            color: white; 
+            padding: 30px; 
+            border-radius: 12px; 
+            text-align: center; 
+            margin-bottom: 30px;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        .header h1 { 
+            margin: 0; 
+            font-size: 28px; 
+            font-weight: 700;
+        }
+        .header p { 
+            margin: 10px 0 0 0; 
+            opacity: 0.95; 
+            font-size: 16px;
+        }
+        .key-highlights { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 15px; 
+            margin-bottom: 25px; 
+        }
+        .highlight-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        .highlight-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .highlight-label { 
+            font-size: 12px; 
+            opacity: 0.9;
+            text-transform: uppercase; 
+            margin-bottom: 8px; 
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .highlight-price { 
+            font-size: 22px; 
+            font-weight: bold; 
+            margin-bottom: 4px;
+        }
+        .highlight-margin {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .key-summary {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+        }
+        .raw-materials { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 15px; 
+            margin-bottom: 25px; 
+        }
+        .raw-card { 
+            background: #f8fafc; 
+            padding: 18px; 
+            border-radius: 12px; 
+            text-align: center; 
+            border: 2px solid #e2e8f0;
+        }
+        .raw-label { 
+            font-size: 12px; 
+            color: #666; 
+            text-transform: uppercase; 
+            margin-bottom: 8px; 
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .raw-value { 
+            font-size: 18px; 
+            font-weight: bold; 
+            color: #1a202c; 
+        }
+        .input-parameters {
+            margin-bottom: 30px;
+        }
+        .input-section-pdf {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+        .param-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 4px 0;
+            font-size: 14px;
+            color: #4a5568;
+        }
+        .param-item span:last-child {
+            font-weight: 600;
+            color: #1a202c;
+        }
+        .results { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 30px; 
+        }
+        .result-card { 
+            background: white; 
+            border: 2px solid #e2e8f0; 
+            border-radius: 12px; 
+            padding: 25px;
+            break-inside: avoid;
+        }
+        .result-title { 
+            font-size: 20px; 
+            font-weight: bold; 
+            margin-bottom: 20px; 
+            color: #1a202c; 
+            border-bottom: 2px solid #f7fafc; 
+            padding-bottom: 12px; 
+        }
+        .cost-item { 
+            display: flex; 
+            justify-content: space-between; 
+            margin-bottom: 10px; 
+            font-size: 14px; 
+            padding: 4px 0;
+        }
+        .cost-item.total { 
+            border-top: 2px solid #e2e8f0; 
+            margin-top: 15px; 
+            padding-top: 15px; 
+            font-weight: bold; 
+            font-size: 16px; 
+            color: #1a202c;
+        }
+        .profit-section { 
+            background: linear-gradient(135deg, #f0fff4 0%, #f7fafc 100%); 
+            padding: 20px; 
+            border-radius: 12px; 
+            margin-top: 20px; 
+            border: 1px solid #e2e8f0;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        .salgspris { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            color: white; 
+            padding: 12px 16px; 
+            border-radius: 8px; 
+            margin-bottom: 15px; 
+            font-weight: bold; 
+            font-size: 16px;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        .profit-amount { 
+            color: #667eea; 
+            font-weight: bold; 
+            font-size: 16px; 
+        }
+        .footer { 
+            text-align: center; 
+            margin-top: 40px; 
+            color: #666; 
+            font-size: 12px; 
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        @media print {
+            body { margin: 0; padding: 12px; font-size: 13px; }
+            .header { padding: 20px; margin-bottom: 20px; }
+            .header h1 { font-size: 24px; }
+            .key-summary { padding: 15px; margin-bottom: 20px; }
+            .highlight-card { padding: 15px; }
+            .highlight-price { font-size: 20px; }
+            .raw-card { padding: 12px; }
+            .detailed-info { margin-bottom: 15px; }
+            .info-section { margin-bottom: 12px; }
+            .info-section h3 { font-size: 14px; margin-bottom: 6px; }
+            .info-section ul { margin-bottom: 12px; line-height: 1.4; }
+            .info-section li { font-size: 12px; }
+            .results { break-inside: avoid; margin-top: 20px; }
+            .result-card { break-inside: avoid; margin-bottom: 15px; padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>☕ Koffeinvinduets kaffekalkulator</h1>
+        <p>Kostnadsanalyse for ${coffeeName} - ${currentDate}</p>
+    </div>
+    
+    <div class="key-summary">
+        <h2 style="color: #1a202c; font-size: 22px; margin-bottom: 20px; text-align: center;">🎯 Utsalgspriser og lønnsomhet</h2>
+        <div class="key-highlights">
+            <div class="highlight-card">
+                <span class="highlight-icon">🏷️</span>
+                <div class="highlight-label">Kaffepose (${bagGrams}g)</div>
+                <div class="highlight-price">${recommendedBagPrice}</div>
+                <div class="highlight-margin">Margin: ${bagActualMargin}</div>
+            </div>
+            <div class="highlight-card">
+                <span class="highlight-icon">☕</span>
+                <div class="highlight-label">Takeaway (${coffeeGrams}g)</div>
+                <div class="highlight-price">${recommendedCupPrice}</div>
+                <div class="highlight-margin">Margin: ${cupActualMargin}</div>
+            </div>
+        </div>
+        
+        <h3 style="color: #1a202c; font-size: 16px; margin-bottom: 15px; text-align: center;">🌱 Råvarepriser</h3>
+        <div class="raw-materials">
+            <div class="raw-card">
+                <div class="raw-label">🌱 Grønnkaffe</div>
+                <div class="raw-value">${greenCoffeePrice} kr/kg</div>
+            </div>
+            <div class="raw-card">
+                <div class="raw-label">🔥 Brent kaffe</div>
+                <div class="raw-value">${rawMaterialPrice}</div>
+            </div>
+        </div>
+        <p style="text-align: center; color: #666; font-size: 12px; margin-top: 10px; font-style: italic;">
+            *Brent kaffe pris inkluderer ${weightLoss}% vekttap ved brenning
+        </p>
+    </div>
+    
+    <div class="detailed-info">
+        <h2 style="color: #1a202c; font-size: 18px; margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">📋 Detaljert informasjon</h2>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
+            <div>
+                <div class="info-section">
+                    <h3 style="color: #2d5016; font-size: 16px; margin-bottom: 10px;">Grønnkaffe og råvarer:</h3>
+                    <ul style="margin: 0 0 20px 20px; line-height: 1.6;">
+                        <li>Frakt per forsendelse: ${shippingCost} kr</li>
+                        <li>Bestilt mengde: ${orderQuantity} kg</li>
+                        <li>Vekttap ved brenning: ${weightLoss}%</li>
+                    </ul>
+                </div>
+                
+                <div class="info-section">
+                    <h3 style="color: #8B4513; font-size: 16px; margin-bottom: 10px;">Lønn og arbeidskostnader:</h3>
+                    <ul style="margin: 0 0 20px 20px; line-height: 1.6;">
+                        <li>Timelønn: ${hourlyWage} kr/time</li>
+                        <li>Arbeidsgiveravgift: ${employerTax}%</li>
+                        <li>Bryggingstid per kopp: ${brewTime} minutter</li>
+                        <li>Pakketid per pose: 3 minutter</li>
+                    </ul>
+                </div>
+                
+                <div class="info-section">
+                    <h3 style="color: #667eea; font-size: 16px; margin-bottom: 10px;">Forbruksvarer og porsjoner:</h3>
+                    <ul style="margin: 0 0 20px 20px; line-height: 1.6;">
+                        <li>Kaffe per kopp: ${coffeeGrams} gram</li>
+                        <li>Posevekt: ${bagGrams} gram</li>
+                        <li>Pappkopp + lokk: ${cupPrice} kr</li>
+                        <li>Kaffefilter: ${filterPrice} kr</li>
+                        <li>Emballasje: ${bagPrice} kr</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div>
+                <div class="info-section">
+                    <h3 style="color: #764ba2; font-size: 16px; margin-bottom: 10px;">Marginer og kostnader:</h3>
+                    <ul style="margin: 0 0 20px 20px; line-height: 1.6;">
+                        <li>Ønsket takeaway margin: ${cupTargetMargin}%</li>
+                        <li>Ønsket pose margin: ${bagTargetMargin}%</li>
+                        <li>Kortterminal-gebyr: 1,75% av salgspris</li>
+                        <li>MVA: 15% av salgspris</li>
+                    </ul>
+                </div>
+                
+                <div class="info-section">
+                    <h3 style="color: #e53e3e; font-size: 16px; margin-bottom: 10px;">Beregnet fortjeneste:</h3>
+                    <ul style="margin: 0 0 20px 20px; line-height: 1.6;">
+                        <li>Takeaway fortjeneste: ${cupProfit}</li>
+                        <li>Takeaway profittmargin: ${cupActualMargin}</li>
+                        <li>Pose fortjeneste: ${bagProfit}</li>
+                        <li>Pose profittmargin: ${bagActualMargin}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        Generert av Koffeinvinduets kaffekalkulator - ${currentDate}<br>
+        Grønnkaffe pris: ${greenCoffeePrice} kr/kg
+    </div>
+</body>
+</html>`;
+
+                // Åpne nytt vindu med PDF-innhold
+                const pdfWindow = window.open('', '_blank', 'width=1000,height=800');
+                pdfWindow.document.write(pdfHTML);
+                pdfWindow.document.close();
+                
+                // Legg til print-funksjonalitet
+                pdfWindow.onload = function() {
+                    setTimeout(() => {
+                        pdfWindow.print();
+                    }, 500);
+                };
+                
+            } catch (error) {
+                console.error('Feil ved PDF-generering:', error);
+                alert('Det oppstod en feil ved PDF-generering. Prøv igjen.');
+            } finally {
+                button.disabled = false;
+                button.textContent = '📄 Last ned PDF';
+            }
+        }
+
+
+        // Roter poetiske kaffe-ord
+        function rotateCoffeeWords() {
+            const formulas = document.querySelectorAll('.floating-formula');
+            formulas.forEach(formula => {
+                const words = JSON.parse(formula.getAttribute('data-coffee-words'));
+                if (words && words.length > 0) {
+                    const randomWord = words[Math.floor(Math.random() * words.length)];
+                    formula.textContent = randomWord;
+                }
+            });
+        }
+
+        // Set up event listeners when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded - setting up calculator');
+            
+            // Last inn lagrede data først
+            const dataLoaded = loadSavedData();
+            
+            const inputIds = [
+                'coffeeName', 'greenCoffeePrice', 'shippingCost', 'orderQuantity', 'weightLoss',
+                'coffeeGrams', 'brewTime', 'hourlyWage', 'employerTax',
+                'cupPrice', 'filterPrice', 'bagPrice', 'bagGrams',
+                'cupTargetMargin', 'bagTargetMargin'
+            ];
+            
+            inputIds.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('input', calculateAll);
+                    element.addEventListener('change', calculateAll);
+                    console.log('Attached listeners to:', id);
+                } else {
+                    console.error('Could not find element:', id);
+                }
+            });
+            
+            // Event listeners for sticky mobile margin inputs
+            const stickyBagMargin = document.getElementById('stickyBagMargin');
+            const stickyCupMargin = document.getElementById('stickyCupMargin');
+            
+            if (stickyBagMargin) {
+                stickyBagMargin.addEventListener('input', function() {
+                    console.log('Sticky bag margin changed to:', this.value);
+                    // Synkroniser med original input
+                    const hiddenInput = document.getElementById('bagTargetMargin');
+                    hiddenInput.value = this.value;
+                    console.log('Hidden bagTargetMargin updated to:', hiddenInput.value);
+                    calculateAll();
+                });
+                stickyBagMargin.addEventListener('change', function() {
+                    console.log('Sticky bag margin change event:', this.value);
+                    document.getElementById('bagTargetMargin').value = this.value;
+                    calculateAll();
+                });
+            } else {
+                console.error('stickyBagMargin element not found');
+            }
+            
+            if (stickyCupMargin) {
+                stickyCupMargin.addEventListener('input', function() {
+                    console.log('Sticky cup margin changed to:', this.value);
+                    // Synkroniser med original input
+                    const hiddenInput = document.getElementById('cupTargetMargin');
+                    hiddenInput.value = this.value;
+                    console.log('Hidden cupTargetMargin updated to:', hiddenInput.value);
+                    calculateAll();
+                });
+                stickyCupMargin.addEventListener('change', function() {
+                    console.log('Sticky cup margin change event:', this.value);
+                    document.getElementById('cupTargetMargin').value = this.value;
+                    calculateAll();
+                });
+            } else {
+                console.error('stickyCupMargin element not found');
+            }
+            
+            // Event listeners for desktop margin inputs
+            const desktopBagMargin = document.getElementById('desktopBagMargin');
+            const desktopCupMargin = document.getElementById('desktopCupMargin');
+            
+            if (desktopBagMargin) {
+                desktopBagMargin.addEventListener('input', function() {
+                    console.log('Desktop bag margin changed to:', this.value);
+                    // Synkroniser med original input
+                    document.getElementById('bagTargetMargin').value = this.value;
+                    calculateAll();
+                });
+                desktopBagMargin.addEventListener('change', function() {
+                    document.getElementById('bagTargetMargin').value = this.value;
+                    calculateAll();
+                });
+            } else {
+                console.error('desktopBagMargin element not found');
+            }
+            
+            if (desktopCupMargin) {
+                desktopCupMargin.addEventListener('input', function() {
+                    console.log('Desktop cup margin changed to:', this.value);
+                    // Synkroniser med original input
+                    document.getElementById('cupTargetMargin').value = this.value;
+                    calculateAll();
+                });
+                desktopCupMargin.addEventListener('change', function() {
+                    document.getElementById('cupTargetMargin').value = this.value;
+                    calculateAll();
+                });
+            } else {
+                console.error('desktopCupMargin element not found');
+            }
+            
+            // Run initial calculation
+            calculateAll();
+            
+            // Vis melding om lagrede data ble lastet
+            if (dataLoaded) {
+                console.log('✅ Lagrede verdier ble lastet inn automatisk');
+            }
+            
+            // Start rotasjon av poetiske kaffe-ord
+            rotateCoffeeWords(); // Initial rotation
+            setInterval(rotateCoffeeWords, 8000); // Roter hvert 8. sekund
+        });
+
+        // Etikett-funksjoner
+        function calculateLabelData() {
+            // Hent direkte fra de beregnede verdiene i DOM-en (samme som kalkulatoren viser)
+            const coffeeName = document.getElementById('coffeeName').value || 'Ukjent kaffe';
+            const greenCoffeePrice = parseFloat(document.getElementById('greenCoffeePrice').value) || 0;
+            const shippingCost = parseFloat(document.getElementById('shippingCost').value) || 0;
+            const orderQuantity = parseFloat(document.getElementById('orderQuantity').value) || 1;
+            
+            // Beregn grønnkaffe + frakt (uten MVA)
+            const shippingPerKg = (orderQuantity > 0 && shippingCost > 0) ? shippingCost / orderQuantity : 0;
+            const greenPriceWithShipping = greenCoffeePrice + shippingPerKg;
+            
+            // Hent beregnede verdier for kaffepose fra DOM
+            const bagCoffeePrice = parseFloat(document.getElementById('bagCoffeePrice').textContent.replace(' kr', '')) || 0;
+            const bagCostDisplay = parseFloat(document.getElementById('bagCostDisplay').textContent.replace(' kr', '')) || 0;
+            const bagLabor = 0; // Lønnskostnad ikke lenger vist
+            const bagTransaction = parseFloat(document.getElementById('bagTransaction').textContent.replace(' kr', '')) || 0;
+            const bagVAT = parseFloat(document.getElementById('bagVAT').textContent.replace(' kr', '')) || 0;
+            const bagTotalCost = parseFloat(document.getElementById('bagTotalCost').textContent.replace(' kr', '')) || 0;
+            const bagCustomPriceDisplay = parseFloat(document.getElementById('bagCustomPriceDisplay').textContent.replace(' kr', '')) || 0;
+            const bagProfit = parseFloat(document.getElementById('bagProfit').textContent.replace(' kr', '')) || 0;
+            const bagGrams = parseFloat(document.getElementById('bagGrams').value) || 250;
+
+            // Konverter til 200g hvis nødvendig
+            const ratio200g = 200 / bagGrams;
+            
+            return {
+                coffeeName,
+                greenCoffeePrice: greenPriceWithShipping.toFixed(0) + ' kr/kg',
+                mvaPct: '15%',
+                roastedPrice200g: (bagCoffeePrice * ratio200g).toFixed(2) + ' kr',
+                packagingCost: (bagCostDisplay * ratio200g).toFixed(2) + ' kr',
+                laborCost: (bagLabor * ratio200g).toFixed(2) + ' kr',
+                zettleFee: (bagTransaction * ratio200g).toFixed(2) + ' kr',
+                vat: (bagVAT * ratio200g).toFixed(2) + ' kr',
+                totalPrice: (bagTotalCost * ratio200g).toFixed(2) + ' kr',
+                salePrice: (bagCustomPriceDisplay * ratio200g).toFixed(2) + ' kr',
+                profit: (bagProfit * ratio200g).toFixed(2) + ' kr'
+            };
+        }
+
+        function generateLabel() {
+            const labelData = calculateLabelData();
+            
+            // Lag etikett-innhold som HTML-streng
+            const labelHTML = `
+                <!DOCTYPE html>
+                <html lang="no">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Kaffetikett - ${labelData.coffeeName}</title>
+                    <style>
+                        @font-face {
+                            font-family: 'SportingGrotesque';
+                            src: url('SportingGrotesque-Regular.otf') format('opentype');
+                        }
+                        
+                        body {
+                            margin: 0;
+                            padding: 20px 20px 8px 20px;
+                            background: #f5f5f5;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            min-height: 100vh;
+                        }
+                        
+                        .coffee-label {
+                            width: 400px;
+                            height: 551px;
+                            background: white;
+                            padding: 8px;
+                            font-family: 'SportingGrotesque', sans-serif;
+                            font-size: 24px;
+                            line-height: 1.3;
+                            color: #2d3748;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+                        }
+                        
+                        .label-header {
+                            text-align: center;
+                            border-bottom: 2px solid #4a5568;
+                            margin-bottom: 8px;
+                            padding-bottom: 8px;
+                        }
+                        
+                        .label-title {
+                            font-size: 28px;
+                            font-weight: bold;
+                            margin-bottom: 4px;
+                        }
+                        
+                        .label-subtitle {
+                            font-size: 20px;
+                            color: #718096;
+                        }
+                        
+                        .label-info {
+                            flex: 1;
+                        }
+                        
+                        .label-row {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            margin-bottom: 6px;
+                            padding: 4px 0;
+                        }
+                        
+                        .label-desc {
+                            font-size: 16px;
+                            color: #4a5568;
+                            flex: 1;
+                        }
+                        
+                        .label-price {
+                            font-size: 18px;
+                            font-weight: bold;
+                            color: #2d3748;
+                        }
+                        
+                        .label-footer {
+                            border-top: 2px solid #4a5568;
+                            padding-top: 8px;
+                            margin-top: 8px;
+                        }
+                        
+                        .export-button {
+                            position: fixed;
+                            top: 20px;
+                            right: 20px;
+                            background: #667eea;
+                            color: white;
+                            border: none;
+                            padding: 12px 24px;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            font-size: 16px;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="coffee-label">
+                        <div class="label-header">
+                            <div class="label-title">${labelData.coffeeName}</div>
+                            <div class="label-subtitle">200g</div>
+                        </div>
+                        
+                        <div class="label-info">
+                            <div class="label-row">
+                                <span class="label-desc">Kilopris grønnkaffe:</span>
+                                <span class="label-price">${labelData.greenCoffeePrice}</span>
+                            </div>
+                            
+                            <div class="label-row">
+                                <span class="label-desc">Kostpris ferdigbrent kaffe:</span>
+                                <span class="label-price">${labelData.roastedPrice200g}</span>
+                            </div>
+                            
+                            <div class="label-row">
+                                <span class="label-desc">Emballasje:</span>
+                                <span class="label-price">${labelData.packagingCost}</span>
+                            </div>
+                            
+                            
+                            <div class="label-row">
+                                <span class="label-desc">Kortterminal-gebyr (1,75%):</span>
+                                <span class="label-price">${labelData.zettleFee}</span>
+                            </div>
+                            
+                            <div class="label-row">
+                                <span class="label-desc">MVA (15%):</span>
+                                <span class="label-price">${labelData.vat}</span>
+                            </div>
+                            
+                            <div class="label-row">
+                                <span class="label-desc">Totale kostnader:</span>
+                                <span class="label-price">${labelData.totalPrice}</span>
+                            </div>
+                            
+                            <div class="label-row">
+                                <span class="label-desc">Utsalgspris:</span>
+                                <span class="label-price">${labelData.salePrice}</span>
+                            </div>
+                    
+                            <div class="label-row">
+                                <span class="label-desc">Produksjonskostnad og margin:</span>
+                                <span class="label-price">${labelData.profit}</span>
+                            </div>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `;
+            
+            // Åpne etiketten i nytt vindu
+            const newWindow = window.open('', '_blank');
+            newWindow.document.write(labelHTML);
+            newWindow.document.close();
+        }
+
+        function exportCoffeeInfoLabel() {
+            // Prompt bruker for kaffeinformasjon
+            const coffeeName = document.getElementById('coffeeName').value || 'Min Kaffe';
+            const country = prompt('Land:', 'Rwanda') || 'Rwanda';
+            const producer = prompt('Produsent:', 'Gasharu Coffee') || 'Gasharu Coffee';
+            const region = prompt('Område:', 'Nyamasheke') || 'Nyamasheke';
+            const process = prompt('Prosess:', 'Anaerobisk bærtørka') || 'Anaerobisk bærtørka';
+            const variety = prompt('Bønnetype:', 'Red Bourbon') || 'Red Bourbon';
+            const roastDate = prompt('Brennedato (f.eks. 2. september):', new Date().toLocaleDateString('nb-NO', { day: 'numeric', month: 'long' })) || new Date().toLocaleDateString('nb-NO', { day: 'numeric', month: 'long' });
+            
+            // Last inn logo som base64
+            const img = new Image();
+            img.onload = function() {
+                console.log('Logo lastet inn successfully');
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                const logoBase64 = canvas.toDataURL('image/png');
+                console.log('Logo konvertert til base64');
+                
+                // Lag en midlertidig container for kaffeinformasjon-etikett
+                const tempContainer = document.createElement('div');
+                tempContainer.style.position = 'absolute';
+                tempContainer.style.left = '-9999px';
+                tempContainer.style.top = '-9999px';
+                tempContainer.innerHTML = `
+                    <div class="coffee-info-label" style="width: 400px; height: 551px; background: white; border: none; border-radius: 20px; padding: 20px; font-family: 'SportingGrotesque', sans-serif; color: #000; display: flex; flex-direction: column; position: relative;">
+                        <!-- Nettside øverst -->
+                        <div style="text-align: left; font-size: 14px; font-weight: normal; margin-bottom: 30px;">
+                            hallvar.no/koffeinvinduet
+                        </div>
+                        
+                        <!-- Logo som base64-bilde -->
+                        <div style="text-align: center; margin-bottom: 60px;">
+                            <img src="${logoBase64}" style="width: 280px; height: auto;" alt="KOFFEIN VINDUET">
+                        </div>
+                        
+                        <!-- Produktinformasjon -->
+                        <div style="font-size: 16px; line-height: 1.5; margin-bottom: 40px;">
+                            <div style="margin-bottom: 6px;"><strong>Land:</strong> ${country}</div>
+                            <div style="margin-bottom: 6px;"><strong>Produsent:</strong> ${producer}</div>
+                            <div style="margin-bottom: 6px;"><strong>Område:</strong> ${region}</div>
+                            <div style="margin-bottom: 6px;"><strong>Prosess:</strong> ${process}</div>
+                            <div style="margin-bottom: 18px;"><strong>Bønnetype:</strong> ${variety}</div>
+                            
+                            <div style="font-size: 14px; line-height: 1.3;">
+                                <div><strong>Brent:</strong> ${roastDate}.</div>
+                                <div>Nytes best mellom 3-6</div>
+                                <div>uker etter brennedato.</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 200g på høyre kant, rotert vertikalt -->
+                        <div style="position: absolute; right: 15px; bottom: 80px; transform: rotate(90deg); transform-origin: center; font-size: 60px; font-weight: 900; opacity: 0.7;">
+                            200g
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(tempContainer);
+                const labelElement = tempContainer.querySelector('.coffee-info-label');
+                
+                // Vent litt før html2canvas for å la DOM oppdatere seg
+                setTimeout(() => {
+                    console.log('Starter html2canvas...');
+                    html2canvas(labelElement, {
+                        width: 400,
+                        height: 551,
+                        scale: 2,
+                        backgroundColor: '#ffffff'
+                    }).then(canvas => {
+                        console.log('html2canvas ferdig, laster ned...');
+                        // Last ned som PNG
+                        const link = document.createElement('a');
+                        link.download = `Kaffeetikett-${coffeeName.replace(/[^a-zA-Z0-9]/g, '')}-info.png`;
+                        link.href = canvas.toDataURL('image/png');
+                        link.click();
+                        
+                        // Fjern midlertidig container
+                        if (document.body.contains(tempContainer)) {
+                            document.body.removeChild(tempContainer);
+                        }
+                    }).catch(error => {
+                        console.error('Feil ved PNG-eksport:', error);
+                        alert('Kunne ikke eksportere til PNG. Error: ' + error.message);
+                        // Fjern midlertidig container ved feil også
+                        if (document.body.contains(tempContainer)) {
+                            document.body.removeChild(tempContainer);
+                        }
+                    });
+                }, 100);
+            };
+            
+            img.onerror = function() {
+                console.error('Kunne ikke laste logo-filen. Feilmelding:', arguments);
+                alert('Logo-fil ikke funnet. Fortsetter med tekst-logo.');
+                // Fortsett uten logo
+                exportWithoutLogo();
+            };
+            
+            function exportWithoutLogo() {
+                // Lag en midlertidig container uten logo
+                const tempContainer = document.createElement('div');
+                tempContainer.style.position = 'absolute';
+                tempContainer.style.left = '-9999px';
+                tempContainer.style.top = '-9999px';
+                tempContainer.innerHTML = `
+                    <div class="coffee-info-label" style="width: 400px; height: 551px; background: white; border: none; border-radius: 20px; padding: 20px; font-family: 'SportingGrotesque', sans-serif; color: #000; display: flex; flex-direction: column; position: relative;">
+                        <!-- Nettside øverst -->
+                        <div style="text-align: left; font-size: 14px; font-weight: normal; margin-bottom: 30px;">
+                            hallvar.no/koffeinvinduet
+                        </div>
+                        
+                        <!-- Logo som tekst -->
+                        <div style="text-align: center; font-size: 42px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 60px; line-height: 0.9;">
+                            KOFFEIN<br>VINDUET
+                        </div>
+                        
+                        <!-- Produktinformasjon -->
+                        <div style="font-size: 16px; line-height: 1.5; margin-bottom: 40px;">
+                            <div style="margin-bottom: 6px;"><strong>Land:</strong> ${country}</div>
+                            <div style="margin-bottom: 6px;"><strong>Produsent:</strong> ${producer}</div>
+                            <div style="margin-bottom: 6px;"><strong>Område:</strong> ${region}</div>
+                            <div style="margin-bottom: 6px;"><strong>Prosess:</strong> ${process}</div>
+                            <div style="margin-bottom: 18px;"><strong>Bønnetype:</strong> ${variety}</div>
+                            
+                            <div style="font-size: 14px; line-height: 1.3;">
+                                <div><strong>Brent:</strong> ${roastDate}.</div>
+                                <div>Nytes best mellom 3-6</div>
+                                <div>uker etter brennedato.</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 200g på høyre kant, rotert vertikalt -->
+                        <div style="position: absolute; right: 15px; bottom: 80px; transform: rotate(90deg); transform-origin: center; font-size: 60px; font-weight: 900; opacity: 0.7;">
+                            200g
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(tempContainer);
+                const labelElement = tempContainer.querySelector('.coffee-info-label');
+                
+                setTimeout(() => {
+                    html2canvas(labelElement, {
+                        width: 400,
+                        height: 551,
+                        scale: 2,
+                        backgroundColor: '#ffffff'
+                    }).then(canvas => {
+                        // Last ned som PNG
+                        const link = document.createElement('a');
+                        link.download = `Kaffeetikett-${coffeeName.replace(/[^a-zA-Z0-9]/g, '')}-info.png`;
+                        link.href = canvas.toDataURL('image/png');
+                        link.click();
+                        
+                        if (document.body.contains(tempContainer)) {
+                            document.body.removeChild(tempContainer);
+                        }
+                    }).catch(error => {
+                        console.error('Feil ved PNG-eksport:', error);
+                        alert('Kunne ikke eksportere til PNG. Error: ' + error.message);
+                        if (document.body.contains(tempContainer)) {
+                            document.body.removeChild(tempContainer);
+                        }
+                    });
+                }, 100);
+            }
+            
+            img.src = 'Koffeinvinduet-logo.png';
+        }
+
+        function exportLabelPNG() {
+            // Først generer etiketten skjult
+            const labelData = calculateLabelData();
+            
+            // Lag en midlertidig container
+            const tempContainer = document.createElement('div');
+            tempContainer.style.position = 'absolute';
+            tempContainer.style.left = '-9999px';
+            tempContainer.style.top = '-9999px';
+            tempContainer.innerHTML = `
+                <div class="coffee-label" style="width: 400px; height: 551px; background: white; border: none; border-radius: 0; padding: 8px 8px 5px 8px; font-family: 'SportingGrotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 18px; line-height: 1.2; color: #2d3748; display: flex; flex-direction: column; justify-content: space-between; box-shadow: none;">
+                    <div class="label-header" style="text-align: center; border-bottom: 2px solid #4a5568; margin: 20px 0 58px 0; padding-bottom: 8px;">
+                        <div class="label-title" style="font-size: 28px; font-weight: bold; margin-bottom: 4px;">${labelData.coffeeName}</div>
+                        <div class="label-subtitle" style="font-size: 20px; color: #718096;">200g - ${labelData.salePrice}</div>
+                    </div>
+                    
+                    <div class="label-info" style="flex: 1;">
+                        <div class="label-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding: 4px 0;">
+                            <span class="label-desc" style="font-size: 16px; color: #4a5568; flex: 1;">Kilopris grønnkaffe:</span>
+                            <span class="label-price" style="font-size: 18px; font-weight: bold; color: #2d3748;">${labelData.greenCoffeePrice}</span>
+                        </div>
+                        
+                        <div class="label-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding: 4px 0;">
+                            <span class="label-desc" style="font-size: 16px; color: #4a5568; flex: 1;">Kostpris ferdigbrent kaffe:</span>
+                            <span class="label-price" style="font-size: 18px; font-weight: bold; color: #2d3748;">${labelData.roastedPrice200g}</span>
+                        </div>
+                        
+                        <div class="label-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding: 4px 0;">
+                            <span class="label-desc" style="font-size: 16px; color: #4a5568; flex: 1;">Emballasje:</span>
+                            <span class="label-price" style="font-size: 18px; font-weight: bold; color: #2d3748;">${labelData.packagingCost}</span>
+                        </div>
+                        
+                        
+                        <div class="label-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding: 4px 0;">
+                            <span class="label-desc" style="font-size: 16px; color: #4a5568; flex: 1;">Kortterminal-gebyr (1,75%):</span>
+                            <span class="label-price" style="font-size: 18px; font-weight: bold; color: #2d3748;">${labelData.zettleFee}</span>
+                        </div>
+                        
+                        <div class="label-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding: 4px 0;">
+                            <span class="label-desc" style="font-size: 16px; color: #4a5568; flex: 1;">MVA (15%):</span>
+                            <span class="label-price" style="font-size: 18px; font-weight: bold; color: #2d3748;">${labelData.vat}</span>
+                        </div>
+                        
+                        
+                        <div class="label-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding: 4px 0; border-top: 1px solid #4a5568; padding-top: 8px;">
+                            <span class="label-desc" style="font-size: 16px; color: #4a5568; flex: 1;">Totale kostnader:</span>
+                            <span class="label-price" style="font-size: 18px; font-weight: bold; color: #2d3748;">${labelData.totalPrice}</span>
+                        </div>
+                        
+                        <div class="label-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding: 4px 0;">
+                            <span class="label-desc" style="font-size: 16px; color: #4a5568; flex: 1;">Produksjonskostnad og margin:</span>
+                            <span class="label-price" style="font-size: 18px; font-weight: bold; color: #2d3748;">${labelData.profit}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(tempContainer);
+            const labelElement = tempContainer.querySelector('.coffee-label');
+            
+            // Bruk html2canvas for å konvertere til PNG
+            html2canvas(labelElement, {
+                width: 400,
+                height: 551,
+                scale: 2, // Høy oppløsning
+                backgroundColor: '#ffffff',
+                useCORS: true,
+                allowTaint: false
+            }).then(canvas => {
+                // Åpne PNG i nytt vindu for enkel lagring til bilderull
+                const imageDataUrl = canvas.toDataURL('image/png');
+                const newWindow = window.open('', '_blank');
+                newWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Kaffeetikett - ${labelData.coffeeName}</title>
+                        <style>
+                            body { 
+                                margin: 0; 
+                                padding: 20px; 
+                                background: #f5f5f5; 
+                                display: flex; 
+                                justify-content: center; 
+                                align-items: center; 
+                                min-height: 100vh; 
+                                font-family: Arial, sans-serif; 
+                            }
+                            .container {
+                                text-align: center;
+                                background: white;
+                                padding: 20px;
+                                border-radius: 12px;
+                                box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+                            }
+                            img { 
+                                max-width: 100%; 
+                                height: auto; 
+                                border: 1px solid #ddd; 
+                                border-radius: 8px; 
+                                cursor: pointer;
+                            }
+                            h3 { 
+                                margin-bottom: 16px; 
+                                color: #333; 
+                            }
+                            p { 
+                                margin-top: 16px; 
+                                color: #666; 
+                                font-size: 14px; 
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="container">
+                            <h3>Kaffeetikett - ${labelData.coffeeName}</h3>
+                            <img src="${imageDataUrl}" alt="Kaffeetikett" />
+                            <p>Klikk på bildet og velg "Lagre til Bilder" for å lagre til bilderullen</p>
+                        </div>
+                    </body>
+                    </html>
+                `);
+                newWindow.document.close();
+                
+                // Fjern midlertidig container
+                document.body.removeChild(tempContainer);
+            }).catch(error => {
+                console.error('Feil ved PNG-eksport:', error);
+                alert('Kunne ikke eksportere til PNG.');
+                // Fjern midlertidig container ved feil også
+                document.body.removeChild(tempContainer);
+            });
+        }
+
+
+        function printLabel() {
+            // Skjul alle andre elementer for utskrift
+            const originalContent = document.body.innerHTML;
+            const labelContent = document.getElementById('labelContent').outerHTML;
+            
+            // Opprett utskrift-vindu med bare etikett-innhold
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Kaffe-etikett</title>
+                    <style>
+                        @font-face {
+                            font-family: 'SportingGrotesque';
+                            src: url('SportingGrotesque-Regular.otf') format('opentype');
+                        }
+                        
+                        body { 
+                            margin: 0; 
+                            padding: 0; 
+                            font-family: 'SportingGrotesque', sans-serif;
+                        }
+                        
+                        .coffee-label {
+                            width: 400px;
+                            height: 551px;
+                            background: white;
+                            padding: 8px;
+                            font-family: 'SportingGrotesque', sans-serif;
+                            font-size: 24px;
+                            line-height: 1.3;
+                            color: #2d3748;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+                        }
+                        
+                        .label-header {
+                            text-align: center;
+                            border-bottom: 2px solid #4a5568;
+                            padding-bottom: 12px;
+                            margin-bottom: 16px;
+                        }
+                        
+                        .label-title {
+                            font-size: 28px;
+                            font-weight: bold;
+                            color: #2d3748;
+                            margin-bottom: 4px;
+                        }
+                        
+                        .label-subtitle {
+                            font-size: 18px;
+                            color: #718096;
+                        }
+                        
+                        .label-info {
+                            flex: 1;
+                            display: flex;
+                            flex-direction: column;
+                            gap: 12px;
+                        }
+                        
+                        .label-row {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            padding: 8px 0;
+                            border-bottom: 1px solid #e2e8f0;
+                        }
+                        
+                        .label-row:last-child {
+                            border-bottom: none;
+                            border-top: 2px solid #4a5568;
+                            padding-top: 12px;
+                            margin-top: 8px;
+                            font-weight: bold;
+                            font-size: 26px;
+                        }
+                        
+                        .label-desc {
+                            font-size: 20px;
+                            color: #4a5568;
+                        }
+                        
+                        .label-price {
+                            font-size: 22px;
+                            font-weight: bold;
+                            color: #2d3748;
+                        }
+                        
+                        .label-total {
+                            font-size: 28px;
+                            font-weight: bold;
+                            color: #1a202c;
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${labelContent}
+                </body>
+                </html>
+            `);
+            
+            printWindow.document.close();
+            
+            // Vent litt før utskrift for å sikre at innholdet er lastet
+            setTimeout(() => {
+                printWindow.print();
+                printWindow.close();
+            }, 500);
+        }
+    </script>
+    
+    <!-- Kreditering -->
+    <footer style="position: fixed; bottom: 0; left: 10px; right: 10px; z-index: 150; text-align: center; padding: 12px 16px 16px 16px; background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 25%, rgba(247, 250, 252, 0.95) 75%, #f7fafc 100%); border: 1px solid #e2e8f0; border-bottom: none; border-radius: 12px 12px 0 0; color: #718096; font-size: 11px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; backdrop-filter: blur(10px); box-shadow: 0 -2px 8px rgba(0,0,0,0.1);">
+        Kaffekalkyler 1.0 | © 2025 <a href="https://www.hallvar.no" target="_blank" style="color: #667eea; text-decoration: none;">Hallvar Bugge Johnsen</a> | <button onclick="window.open('https://koffeinkode.github.io/kaffekalkyle-neon-wallpaper/', '_blank')" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 10px; font-weight: 500; text-decoration: none; transition: all 0.2s ease; box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 8px rgba(102, 126, 234, 0.4)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 2px 4px rgba(102, 126, 234, 0.3)'">🎨 Neon Wallpaper</button>
+    </footer>
+</body>
+</html>
