@@ -2329,16 +2329,17 @@
             
             return {
                 coffeeName,
+                bagGrams,
                 greenCoffeePrice: greenPriceWithShipping.toFixed(0) + ' kr/kg',
                 mvaPct: '15%',
-                roastedPrice200g: (bagCoffeePrice * ratio200g).toFixed(2) + ' kr',
-                packagingCost: (bagCostDisplay * ratio200g).toFixed(2) + ' kr',
-                laborCost: (bagLabor * ratio200g).toFixed(2) + ' kr',
-                zettleFee: (bagTransaction * ratio200g).toFixed(2) + ' kr',
-                vat: (bagVAT * ratio200g).toFixed(2) + ' kr',
-                totalPrice: (bagTotalCost * ratio200g).toFixed(2) + ' kr',
-                salePrice: (bagCustomPriceDisplay * ratio200g).toFixed(2) + ' kr',
-                profit: (bagProfit * ratio200g).toFixed(2) + ' kr'
+                roastedPriceBag: bagCoffeePrice.toFixed(2) + ' kr',
+                packagingCost: bagCostDisplay.toFixed(2) + ' kr',
+                laborCost: bagLabor.toFixed(2) + ' kr',
+                zettleFee: bagTransaction.toFixed(2) + ' kr',
+                vat: bagVAT.toFixed(2) + ' kr',
+                totalPrice: bagTotalCost.toFixed(2) + ' kr',
+                salePrice: bagCustomPriceDisplay.toFixed(2) + ' kr',
+                profit: bagProfit.toFixed(2) + ' kr'
             };
         }
 
@@ -2449,7 +2450,7 @@
                     <div class="coffee-label">
                         <div class="label-header">
                             <div class="label-title">${labelData.coffeeName}</div>
-                            <div class="label-subtitle">200g</div>
+                            <div class="label-subtitle">${labelData.bagGrams}g</div>
                         </div>
                         
                         <div class="label-info">
@@ -2460,7 +2461,7 @@
                             
                             <div class="label-row">
                                 <span class="label-desc">Kostpris ferdigbrent kaffe:</span>
-                                <span class="label-price">${labelData.roastedPrice200g}</span>
+                                <span class="label-price">${labelData.roastedPriceBag}</span>
                             </div>
                             
                             <div class="label-row">
@@ -2468,6 +2469,10 @@
                                 <span class="label-price">${labelData.packagingCost}</span>
                             </div>
                             
+                            <div class="label-row">
+                                <span class="label-desc">Produksjonskostnad og margin:</span>
+                                <span class="label-price">${labelData.profit}</span>
+                            </div>
                             
                             <div class="label-row">
                                 <span class="label-desc">Kortterminal-gebyr (1,75%):</span>
@@ -2480,18 +2485,8 @@
                             </div>
                             
                             <div class="label-row">
-                                <span class="label-desc">Totale kostnader:</span>
-                                <span class="label-price">${labelData.totalPrice}</span>
-                            </div>
-                            
-                            <div class="label-row">
                                 <span class="label-desc">Utsalgspris:</span>
                                 <span class="label-price">${labelData.salePrice}</span>
-                            </div>
-                    
-                            <div class="label-row">
-                                <span class="label-desc">Produksjonskostnad og margin:</span>
-                                <span class="label-price">${labelData.profit}</span>
                             </div>
                         </div>
                     </div>
@@ -2508,6 +2503,7 @@
         function exportCoffeeInfoLabel() {
             // Prompt bruker for kaffeinformasjon
             const coffeeName = document.getElementById('coffeeName').value || 'Min Kaffe';
+            const bagGrams = parseFloat(document.getElementById('bagGrams').value) || 250;
             const country = prompt('Land:', 'Rwanda') || 'Rwanda';
             const producer = prompt('Produsent:', 'Gasharu Coffee') || 'Gasharu Coffee';
             const region = prompt('Område:', 'Nyamasheke') || 'Nyamasheke';
@@ -2559,9 +2555,9 @@
                             </div>
                         </div>
                         
-                        <!-- 200g på høyre kant, rotert vertikalt -->
+                        <!-- Posevekt på høyre kant, rotert vertikalt -->
                         <div style="position: absolute; right: 15px; bottom: 80px; transform: rotate(90deg); transform-origin: center; font-size: 60px; font-weight: 900; opacity: 0.7;">
-                            200g
+                            ${bagGrams}g
                         </div>
                     </div>
                 `;
@@ -2608,6 +2604,7 @@
             };
             
             function exportWithoutLogo() {
+                // Hent bagGrams fra input
                 // Lag en midlertidig container uten logo
                 const tempContainer = document.createElement('div');
                 tempContainer.style.position = 'absolute';
@@ -2640,9 +2637,9 @@
                             </div>
                         </div>
                         
-                        <!-- 200g på høyre kant, rotert vertikalt -->
+                        <!-- Posevekt på høyre kant, rotert vertikalt -->
                         <div style="position: absolute; right: 15px; bottom: 80px; transform: rotate(90deg); transform-origin: center; font-size: 60px; font-weight: 900; opacity: 0.7;">
-                            200g
+                            ${bagGrams}g
                         </div>
                     </div>
                 `;
@@ -2692,7 +2689,7 @@
                 <div class="coffee-label" style="width: 400px; height: 551px; background: white; border: none; border-radius: 0; padding: 8px 8px 5px 8px; font-family: 'SportingGrotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 18px; line-height: 1.2; color: #2d3748; display: flex; flex-direction: column; justify-content: space-between; box-shadow: none;">
                     <div class="label-header" style="text-align: center; border-bottom: 2px solid #4a5568; margin: 20px 0 58px 0; padding-bottom: 8px;">
                         <div class="label-title" style="font-size: 28px; font-weight: bold; margin-bottom: 4px;">${labelData.coffeeName}</div>
-                        <div class="label-subtitle" style="font-size: 20px; color: #718096;">200g - ${labelData.salePrice}</div>
+                        <div class="label-subtitle" style="font-size: 20px; color: #718096;">${labelData.bagGrams}g</div>
                     </div>
                     
                     <div class="label-info" style="flex: 1;">
@@ -2703,7 +2700,7 @@
                         
                         <div class="label-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding: 4px 0;">
                             <span class="label-desc" style="font-size: 16px; color: #4a5568; flex: 1;">Kostpris ferdigbrent kaffe:</span>
-                            <span class="label-price" style="font-size: 18px; font-weight: bold; color: #2d3748;">${labelData.roastedPrice200g}</span>
+                            <span class="label-price" style="font-size: 18px; font-weight: bold; color: #2d3748;">${labelData.roastedPriceBag}</span>
                         </div>
                         
                         <div class="label-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding: 4px 0;">
@@ -2711,6 +2708,10 @@
                             <span class="label-price" style="font-size: 18px; font-weight: bold; color: #2d3748;">${labelData.packagingCost}</span>
                         </div>
                         
+                        <div class="label-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding: 4px 0;">
+                            <span class="label-desc" style="font-size: 16px; color: #4a5568; flex: 1;">Produksjonskostnad og margin:</span>
+                            <span class="label-price" style="font-size: 18px; font-weight: bold; color: #2d3748;">${labelData.profit}</span>
+                        </div>
                         
                         <div class="label-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding: 4px 0;">
                             <span class="label-desc" style="font-size: 16px; color: #4a5568; flex: 1;">Kortterminal-gebyr (1,75%):</span>
@@ -2722,15 +2723,9 @@
                             <span class="label-price" style="font-size: 18px; font-weight: bold; color: #2d3748;">${labelData.vat}</span>
                         </div>
                         
-                        
                         <div class="label-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding: 4px 0; border-top: 1px solid #4a5568; padding-top: 8px;">
-                            <span class="label-desc" style="font-size: 16px; color: #4a5568; flex: 1;">Totale kostnader:</span>
-                            <span class="label-price" style="font-size: 18px; font-weight: bold; color: #2d3748;">${labelData.totalPrice}</span>
-                        </div>
-                        
-                        <div class="label-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding: 4px 0;">
-                            <span class="label-desc" style="font-size: 16px; color: #4a5568; flex: 1;">Produksjonskostnad og margin:</span>
-                            <span class="label-price" style="font-size: 18px; font-weight: bold; color: #2d3748;">${labelData.profit}</span>
+                            <span class="label-desc" style="font-size: 16px; color: #4a5568; flex: 1;">Utsalgspris:</span>
+                            <span class="label-price" style="font-size: 18px; font-weight: bold; color: #2d3748;">${labelData.salePrice}</span>
                         </div>
                     </div>
                 </div>
